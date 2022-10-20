@@ -11,7 +11,7 @@ const roomSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: [true, 'User that created the room, must be provided'],
+    required: [false, 'User that created the room, must be provided'],
   },
   price: {
     type: Number,
@@ -68,7 +68,7 @@ const roomSchema = new mongoose.Schema({
       // name of a current single review
       name: {
         type: String,
-        required: [true, 'A review sould name of the user who created it'],
+        required: [true, 'A review should name of the user who created it'],
       },
       rating: {
         // like 5 stars, or 4 stars
@@ -88,4 +88,6 @@ const roomSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.models.Room || mongoose.model('Room', roomSchema);
+const Room = mongoose.models.Room || mongoose.model('Room', roomSchema);
+
+export default Room;
