@@ -89,8 +89,4 @@ const roomSchema = new mongoose.Schema({
 });
 
 // @ts-ignore
-console.log(mongoose.model.Room);
-console.log(mongoose.models);
-
-// @ts-ignore
 export default mongoose.model.Room || mongoose.model("Room", roomSchema);
