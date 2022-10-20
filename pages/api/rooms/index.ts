@@ -1,6 +1,10 @@
 import nc from "next-connect";
 import { allRooms } from "../../../controllers/room-controllers";
+import { dbConnect } from "../../../utils/db-connect";
 
-const handler = nc().get(allRooms);
+dbConnect();
+
+const handler = nc();
+handler.get(allRooms);
 
 export default handler;
