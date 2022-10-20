@@ -7,6 +7,12 @@ const roomSchema = new mongoose.Schema({
     trim: true,
     maxLength: [100, "Room name cannot exceed 100 characters"],
   },
+  // user that created this room
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: [true, "User that created the room, must be provided"],
+  },
   price: {
     type: Number,
     required: [true, "Please enter room price"],
@@ -76,12 +82,6 @@ const roomSchema = new mongoose.Schema({
       },
     },
   ],
-  // user that created this room
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: [true, "User that created the room, must be provided"],
-  },
   createdAt: {
     type: Date,
     default: Date.now(),
