@@ -1,22 +1,21 @@
 import nc from 'next-connect';
 import {
-  allRooms,
-  deleteAll,
-  newRoom,
+  deleteRoom,
+  getRoom,
+  updateRoom,
 } from '../../../controllers/room-controllers';
 import { dbConnect } from '../../../utils/db-connect';
 
 const handler = nc();
 
-// connect the db (if not connected), before getting to any request
 handler.use(async (req, res, next) => {
   await dbConnect();
   next();
 });
 
-// routes without id
-handler.get(allRooms);
-handler.post(newRoom);
-handler.delete(deleteAll);
+// routes with id
+handler.get(getRoom);
+handler.patch(updateRoom);
+handler.delete(deleteRoom);
 
 export default handler;
