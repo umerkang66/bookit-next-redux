@@ -84,8 +84,12 @@ const roomSchema = new mongoose.Schema({
   ],
   createdAt: {
     type: Date,
-    default: Date.now(),
   },
+});
+
+roomSchema.pre('save', function (next) {
+  this.createdAt = new Date();
+  next();
 });
 
 const Room = mongoose.models.Room || mongoose.model('Room', roomSchema);
