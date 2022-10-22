@@ -7,10 +7,11 @@ import { ApiFeatures } from '../utils/api-features';
 // ROUTES HANDLERS WITHOUT "ID"
 export const allRooms: RouteHandler = catchAsync(async (req, res) => {
   const apiFeatures = new ApiFeatures(Room.find({}), req.query)
+    .search()
     .filter()
     .sort()
-    .getFields();
-
+    .getFields()
+    .paginate();
   const rooms = await apiFeatures.getQuery();
 
   res.status(200).json({
@@ -45,7 +46,6 @@ export const getRoom: RouteHandler = catchAsync(async (req, res, next) => {
 
 export const updateRoom: RouteHandler = catchAsync(async (req, res, next) => {
   const room = await Room.findById(req.query.id);
-
   if (!room) {
     // This will be caught by the global error handler
     return next(new CustomError('Room not found with this id', 400));
@@ -55,13 +55,11 @@ export const updateRoom: RouteHandler = catchAsync(async (req, res, next) => {
     new: true,
     runValidators: true,
   });
-
   res.status(200).json({ success: true, updatedRoom });
 });
 
 export const deleteRoom: RouteHandler = catchAsync(async (req, res, next) => {
   const room = await Room.findById(req.query.id);
-
   if (!room) {
     // This will be caught by the global error handler
     return next(new CustomError('Room not found with this id', 400));
