@@ -5,8 +5,9 @@ import {
   newRoom,
 } from '../../../controllers/room-controllers';
 import { dbConnect } from '../../../utils/db-connect';
+import { errorHandler } from '../../../middlewares/error-handler';
 
-const handler = nc();
+const handler = nc({ onError: errorHandler });
 
 // connect the db (if not connected), before getting to any request
 handler.use(async (req, res, next) => {

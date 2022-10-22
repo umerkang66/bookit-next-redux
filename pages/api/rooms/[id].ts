@@ -5,8 +5,9 @@ import {
   updateRoom,
 } from '../../../controllers/room-controllers';
 import { dbConnect } from '../../../utils/db-connect';
+import { errorHandler } from '../../../middlewares/error-handler';
 
-const handler = nc();
+const handler = nc({ onError: errorHandler });
 
 handler.use(async (req, res, next) => {
   await dbConnect();

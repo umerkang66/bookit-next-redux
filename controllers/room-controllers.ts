@@ -1,141 +1,94 @@
-import { NextApiRequest, NextApiResponse } from 'next';
 import Room from '../models/room';
-
-type RouteHandler = (
-  req: NextApiRequest,
-  res: NextApiResponse
-) => void | Promise<void>;
+import { CustomError } from '../utils/custom-error';
+import { catchAsync } from '../utils/catch-async';
+import { RouteHandler } from '../common-types/route-handler';
 
 // ROUTES HANDLERS WITHOUT "ID"
-export const allRooms: RouteHandler = async (req, res) => {
-  try {
-    let query = Room.find({});
-    if (req.query.sort) {
-      const sort = req.query.sort as string;
-      query = query.sort(sort.split(',').join(' '));
-    }
-    // if there are multiple selects, they should be separated through ","
-    if (req.query.select) {
-      const select = req.query.select as string;
-      query = query.select(select.split(','));
-    }
-
-    const rooms = await query;
-
-    res.status(200).json({
-      success: true,
-      length: rooms.length,
-      rooms,
-    });
-  } catch (err: any) {
-    res.status(400).json({
-      success: false,
-      error: err.message || 'Something went wrong',
-    });
+export const allRooms: RouteHandler = catchAsync(async (req, res) => {
+  let query = Room.find({});
+  if (req.query.sort) {
+    const sort = req.query.sort as string;
+    query = query.sort(sort.split(',').join(' '));
   }
-};
-
-export const newRoom: RouteHandler = async (req, res) => {
-  try {
-    const room = await Room.create(req.body);
-
-    res.status(200).json({
-      success: true,
-      room,
-    });
-  } catch (err: any) {
-    res.status(400).json({
-      success: false,
-      error: err.message || 'Something went wrong',
-    });
+  // if there are multiple selects, they should be separated through ","
+  if (req.query.select) {
+    const select = req.query.select as string;
+    query = query.select(select.split(','));
   }
-};
 
-export const deleteAll: RouteHandler = async (req, res) => {
+  const rooms = await query;
+
+  res.status(200).json({
+    success: true,
+    length: rooms.length,
+    rooms,
+  });
+});
+
+export const newRoom: RouteHandler = catchAsync(async (req, res) => {
+  const room = await Room.create(req.body);
+
+  res.status(200).json({
+    success: true,
+    room,
+  });
+});
+
+export const deleteAll: RouteHandler = catchAsync(async (req, res) => {
   await Room.deleteMany({});
   res.status(204).json({
     success: true,
     rooms: null,
   });
-};
+});
 
 // ROUTE HANDLERS WITH "ID"
 // /api/rooms/:id
-export const getRoom: RouteHandler = async (req, res) => {
-  try {
-    const room = await Room.findById(req.query.id);
+export const getRoom: RouteHandler = catchAsync(async (req, res, next) => {
+  const room = await Room.findById(req.query.id);
 
-    if (!room) {
-      res.status(400).json({
-        success: false,
-        error: 'Room not found with this id',
-      });
-      return;
-    }
-
-    res.status(200).json({
-      success: true,
-      room,
-    });
-  } catch (err: any) {
-    res.status(400).json({
-      success: false,
-      error: err.message,
-    });
+  if (!room) {
+    // This will be caught by the global error handler
+    return next(new CustomError('Room not found with this id', 400));
   }
-};
 
-export const updateRoom: RouteHandler = async (req, res) => {
-  try {
-    const room = await Room.findById(req.query.id);
+  res.status(200).json({
+    success: true,
+    room,
+  });
+});
 
-    if (!room) {
-      res.status(400).json({
-        success: false,
-        error: 'Room not found with this id',
-      });
-      return;
-    }
+export const updateRoom: RouteHandler = catchAsync(async (req, res, next) => {
+  const room = await Room.findById(req.query.id);
 
-    const updatedRoom = await Room.findByIdAndUpdate(req.query.id, req.body, {
-      new: true,
-      runValidators: true,
-    });
-
-    res.status(200).json({
-      success: true,
-      updatedRoom,
-    });
-  } catch (err: any) {
-    res.status(400).json({
-      success: false,
-      error: err.message || 'Something went wrong',
-    });
+  if (!room) {
+    // This will be caught by the global error handler
+    return next(new CustomError('Room not found with this id', 400));
   }
-};
 
-export const deleteRoom: RouteHandler = async (req, res) => {
-  try {
-    const room = await Room.findById(req.query.id);
+  const updatedRoom = await Room.findByIdAndUpdate(req.query.id, req.body, {
+    new: true,
+    runValidators: true,
+  });
 
-    if (!room) {
-      res.status(400).json({
-        success: false,
-        error: 'Room not found with this id',
-      });
-      return;
-    }
+  res.status(200).json({
+    success: true,
+    updatedRoom,
+  });
+});
 
-    await room.remove();
+export const deleteRoom: RouteHandler = catchAsync(async (req, res, next) => {
+  const room = await Room.findById(req.query.id);
 
-    res.status(200).json({
-      success: true,
-      room: null,
-    });
-  } catch (err: any) {
-    res.status(400).json({
-      success: false,
-      error: err.message || 'Something went wrong',
-    });
+  if (!room) {
+    // This will be caught by the global error handler
+    return next(new CustomError('Room not found with this id', 400));
   }
-};
+
+  await room.remove();
+
+  res.status(200).json({
+    success: true,
+    room: null,
+  });
+});
