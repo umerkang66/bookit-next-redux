@@ -55,7 +55,7 @@ export const updateRoom: RouteHandler = catchAsync(async (req, res, next) => {
     new: true,
     runValidators: true,
   });
-  res.status(200).json({ success: true, updatedRoom });
+  res.status(200).json({ success: true, room: updatedRoom });
 });
 
 export const deleteRoom: RouteHandler = catchAsync(async (req, res, next) => {
