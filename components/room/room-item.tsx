@@ -32,9 +32,11 @@ const RoomItem: FC<{ room: Room }> = ({ room }) => {
             <span id="no_of_reviews">({room.reviews.length} Reviews)</span>
           </div>
 
-          <button className="btn btn-block view-btn">
-            <a href={`/rooms/${room._id}`}>View Details</a>
-          </button>
+          <Link href={`/rooms/${room._id}`}>
+            <button className="btn btn-block view-btn">
+              <a>View Details</a>
+            </button>
+          </Link>
         </div>
       </div>
     </div>
