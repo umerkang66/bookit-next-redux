@@ -17,7 +17,7 @@ export const getAllRooms = (req: any) => {
     } catch (err: any) {
       dispatch({
         type: AllRoomsActionType.All_ROOMS_ERROR,
-        payload: err.message || 'Something went wrong',
+        payload: err.response.data.message || 'Something went wrong',
       });
     }
   };

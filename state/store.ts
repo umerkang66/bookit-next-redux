@@ -9,6 +9,7 @@ import { HYDRATE, createWrapper } from 'next-redux-wrapper';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { combinedReducer, RootState } from './reducers';
+import { type Action } from './action';
 
 const bindMiddlewares = (middlewares: Middleware[]) => {
   if (process.env.NODE_ENV !== 'production') {
@@ -26,7 +27,7 @@ const masterReducer = (state: RootState, action: AnyAction) => {
     };
     return nextState;
   }
-  return combinedReducer(state, action);
+  return combinedReducer(state, action as Action);
 };
 
 const makeStore = () => {

@@ -6,14 +6,15 @@ import Footer from './footer';
 
 interface LayoutProps {
   children?: ReactNode;
-  title?: string;
 }
 
-const Layout: FC<LayoutProps> = ({ children, title = 'Book Best Hotel' }) => {
+const Layout: FC<LayoutProps> = ({ children }) => {
+  const defaultTitle = 'BookIt - Book Best Hotels';
+
   return (
     <div>
       <Head>
-        <title>{title}</title>
+        <title>{defaultTitle}</title>
       </Head>
 
       <Header />

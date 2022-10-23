@@ -4,7 +4,7 @@ import RoomItem from './room/room-item';
 
 const Home: FC = () => {
   const allRoomsState = useTypedSelector(state => state.allRooms);
-  const rooms = allRoomsState.rooms;
+  const { rooms, error } = allRoomsState;
 
   return (
     <section id="rooms" className="container mt-5">
@@ -15,7 +15,12 @@ const Home: FC = () => {
         <i className="fa fa-arrow-left"></i> Back to Search
       </a>
       <div className="row">
-        {rooms.length === 0 ? (
+        {error && (
+          <div className="alert alert-danger">
+            <b>{error}</b>
+          </div>
+        )}
+        {!error && rooms.length === 0 ? (
           <div className="alert alert-danger">
             <b>No Rooms Found</b>
           </div>

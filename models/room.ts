@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { RoomDoc } from '../common-types/room';
 
 const roomSchema = new mongoose.Schema({
   name: {
@@ -17,7 +18,6 @@ const roomSchema = new mongoose.Schema({
     type: Number,
     required: [true, 'Please enter room price'],
     maxLength: [4, 'Room price cannot exceed 4 characters'],
-    default: 0,
   },
   description: {
     type: String,
@@ -92,6 +92,10 @@ roomSchema.pre('save', function (next) {
   next();
 });
 
-const Room = mongoose.models.Room || mongoose.model('Room', roomSchema);
+type RoomModel = mongoose.Model<RoomDoc>;
+
+const Room =
+  (mongoose.models.Room as RoomModel) ||
+  mongoose.model<RoomDoc, RoomModel>('Room', roomSchema);
 
 export default Room;
