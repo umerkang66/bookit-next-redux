@@ -28,7 +28,7 @@ export interface RoomAttrs {
   ratings?: number;
   numOfReviews?: number;
   images: RoomImage[];
-  category: ['King', 'Single', 'Twins'];
+  category: 'King' | 'Single' | 'Twins';
   reviews: RoomReview[];
 }
 
@@ -48,7 +48,7 @@ export interface RoomDoc extends mongoose.Document {
   ratings: number;
   numOfReviews: number;
   images: RoomImage[];
-  category: ['King', 'Single', 'Twins'];
+  category: 'King' | 'Single' | 'Twins';
   reviews: RoomReview[];
   createdAt: Date;
 }
@@ -70,7 +70,7 @@ export interface Room {
   ratings: number;
   numOfReviews: number;
   images: RoomImage[];
-  category: ['King', 'Single', 'Twins'];
+  category: 'King' | 'Single' | 'Twins';
   reviews: RoomReview[];
   createdAt: Date;
 }

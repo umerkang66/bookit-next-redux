@@ -4,11 +4,23 @@ import axios from 'axios';
 import { AllRoomsActionType } from '../action-types';
 import { Action } from '../action';
 
-export const getAllRooms = (req: any, page: number) => {
+// this search is actually search by location
+export const getAllRooms = (
+  req: any,
+  page: number,
+  search: string,
+  guestCapacity: string,
+  category: string
+) => {
   return async (dispatch: Dispatch<Action>) => {
     try {
       const { origin } = absoluteUrl(req);
-      const { data } = await axios.get(`${origin}/api/rooms?page=${page}`);
+      let link = `${origin}/api/rooms?page=${page}&search=${search}`;
+
+      if (guestCapacity) link += `&guestCapacity=${guestCapacity}`;
+      if (category) link += `&category=${category}`;
+
+      const { data } = await axios.get(link);
 
       dispatch({
         type: AllRoomsActionType.All_ROOMS_SUCCESS,

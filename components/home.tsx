@@ -4,12 +4,17 @@ import Pagination from 'react-js-pagination';
 import { useTypedSelector } from '../hooks/use-typed-selector';
 import RoomItem from './room/room-item';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 const Home: FC = () => {
   const router = useRouter();
   const allRoomsState = useTypedSelector(state => state.allRooms);
   const { rooms, error, totalRooms } = allRoomsState;
+
   const page = parseInt((router.query.page as string) || '1');
+  const search = router.query.search;
+  const guestCapacity = router.query.guestCapacity;
+  const category = router.query.category;
 
   useEffect(() => {
     if (error) {
@@ -24,15 +29,18 @@ const Home: FC = () => {
   return (
     <div>
       <section id="rooms" className="container mt-5">
-        <h2 className="mb-3 ml-2 stays-heading">Stays in New York</h2>
+        <h2 className="mb-3 ml-2 stays-heading">
+          {search ? `Rooms in ${search}` : 'All Rooms'}
+        </h2>
 
-        <a href="#" className="ml-2 back-to-search">
-          {' '}
-          <i className="fa fa-arrow-left"></i> Back to Search
-        </a>
+        <Link href="/search">
+          <a className="ml-2 back-to-search">
+            <i className="fa fa-arrow-left"></i> Back to Search
+          </a>
+        </Link>
         <div className="row">
           {!error && rooms.length === 0 ? (
-            <div className="alert alert-danger">
+            <div className="alert alert-danger mt-5 w-100">
               <b>No Rooms Found</b>
             </div>
           ) : (
@@ -43,7 +51,7 @@ const Home: FC = () => {
         </div>
       </section>
 
-      {rooms.length <= totalRooms && (
+      {!guestCapacity && !category && !search && rooms.length < totalRooms && (
         <div className="d-flex justify-content-center mt-5">
           <Pagination
             activePage={page}

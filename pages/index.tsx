@@ -14,9 +14,19 @@ const HomePage: NextPage = () => {
 
 export const getServerSideProps = wrapper.getServerSideProps(store => {
   return async context => {
-    let page = parseInt((context.query.page as string) || '1');
+    const page = parseInt((context.query.page as string) || '1');
+    // if it is undefined enter the empty string
+    const search = (context.query.search || '') as string;
+    const guestCapacity = (context.query.guestCapacity || '') as string;
+    const category = (context.query.category || '') as string;
 
-    const action = actionCreators.getAllRooms(context.req, page);
+    const action = actionCreators.getAllRooms(
+      context.req,
+      page,
+      search,
+      guestCapacity,
+      category
+    );
     await store.dispatch(action as unknown as DefaultAction);
 
     // just for the sake of typescript error

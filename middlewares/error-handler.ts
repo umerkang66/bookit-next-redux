@@ -23,6 +23,14 @@ const handleMongooseErrors = (err: Error): Error | CustomError => {
     error = new CustomError(msg, 400);
   }
 
+  if (err.name === 'MongoServerError') {
+    // If document value should be unique, but it is not
+    // @ts-ignore
+    const keys = Object.keys(err.keyValue).join(', ');
+    const message = `Duplicate field value: [${keys}]. Please use another one.`;
+    error = new CustomError(message, 400);
+  }
+
   return error;
 };
 
