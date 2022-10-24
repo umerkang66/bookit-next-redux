@@ -5,11 +5,13 @@ import { AllRoomsActionType } from '../action-types';
 interface AllRoomsState {
   error: string | null;
   rooms: Room[];
+  totalRooms: number;
 }
 
 const initialState: AllRoomsState = {
   error: null,
   rooms: [],
+  totalRooms: 0,
 };
 
 export const allRoomsReducer = (
@@ -18,9 +20,14 @@ export const allRoomsReducer = (
 ): AllRoomsState => {
   switch (action.type) {
     case AllRoomsActionType.All_ROOMS_ERROR:
-      return { ...state, error: action.payload, rooms: [] };
+      return { ...state, error: action.payload, rooms: [], totalRooms: 0 };
     case AllRoomsActionType.All_ROOMS_SUCCESS:
-      return { ...state, error: null, rooms: action.payload };
+      return {
+        ...state,
+        error: null,
+        rooms: action.payload.rooms,
+        totalRooms: action.payload.totalRooms,
+      };
     default:
       return state;
   }

@@ -1,9 +1,9 @@
 import { Room } from '../../common-types/room';
-import { AllRoomsActionType } from '../action-types';
+import { AllRoomsActionType, GetRoomActionType } from '../action-types';
 
 interface AllRoomsSuccessAction {
   type: AllRoomsActionType.All_ROOMS_SUCCESS;
-  payload: Room[];
+  payload: { rooms: Room[]; totalRooms: number };
 }
 interface AllRoomsErrorAction {
   type: AllRoomsActionType.All_ROOMS_ERROR;
@@ -11,4 +11,17 @@ interface AllRoomsErrorAction {
   payload: string;
 }
 
-export type Action = AllRoomsSuccessAction | AllRoomsErrorAction;
+interface GetRoomSuccessAction {
+  type: GetRoomActionType.GET_ROOM_SUCCESS;
+  payload: Room;
+}
+interface GetRoomErrorAction {
+  type: GetRoomActionType.GET_ROOM_ERROR;
+  payload: string;
+}
+
+export type Action =
+  | AllRoomsSuccessAction
+  | AllRoomsErrorAction
+  | GetRoomSuccessAction
+  | GetRoomErrorAction;

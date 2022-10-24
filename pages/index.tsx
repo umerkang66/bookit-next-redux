@@ -14,7 +14,9 @@ const HomePage: NextPage = () => {
 
 export const getServerSideProps = wrapper.getServerSideProps(store => {
   return async context => {
-    const action = actionCreators.getAllRooms(context.req);
+    let page = parseInt((context.query.page as string) || '1');
+
+    const action = actionCreators.getAllRooms(context.req, page);
     await store.dispatch(action as unknown as DefaultAction);
 
     // just for the sake of typescript error

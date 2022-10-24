@@ -13,9 +13,11 @@ export const allRooms: RouteHandler = catchAsync(async (req, res) => {
     .getFields()
     .paginate();
   const rooms = await apiFeatures.getQuery();
+  const totalRooms = await Room.countDocuments();
 
   res.status(200).json({
     success: true,
+    totalRooms,
     length: rooms.length,
     rooms,
   });

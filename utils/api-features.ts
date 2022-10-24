@@ -77,7 +77,7 @@ export class ApiFeatures<T extends Query<any, any>> {
 
   public paginate(): this {
     const page = parseInt(this.reqQuery.page) || 1;
-    const limit = parseInt(this.reqQuery.limit) || 10;
+    const limit = parseInt(this.reqQuery.limit) || 4;
     const skipDocuments = limit * (page - 1);
     this.mongooseQuery = this.mongooseQuery.skip(skipDocuments).limit(limit);
 
