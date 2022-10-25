@@ -1,5 +1,9 @@
-import { Room } from '../../common-types/room';
-import { AllRoomsActionType, GetRoomActionType } from '../action-types';
+import { User, Room } from '../../common-types';
+import {
+  AllRoomsActionType,
+  GetRoomActionType,
+  SignupActionTypes,
+} from '../action-types';
 
 interface AllRoomsSuccessAction {
   type: AllRoomsActionType.All_ROOMS_SUCCESS;
@@ -20,8 +24,23 @@ interface GetRoomErrorAction {
   payload: string;
 }
 
+interface SignupUserStartAction {
+  type: SignupActionTypes.SIGNUP_USER_START;
+}
+interface SignupUserSuccessAction {
+  type: SignupActionTypes.SIGNUP_USER_SUCCESS;
+  payload: string;
+}
+interface SignupUserErrorAction {
+  type: SignupActionTypes.SIGNUP_USER_ERROR;
+  payload: string;
+}
+
 export type Action =
   | AllRoomsSuccessAction
   | AllRoomsErrorAction
   | GetRoomSuccessAction
-  | GetRoomErrorAction;
+  | GetRoomErrorAction
+  | SignupUserStartAction
+  | SignupUserSuccessAction
+  | SignupUserErrorAction;

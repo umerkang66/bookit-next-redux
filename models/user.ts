@@ -55,7 +55,16 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
-type UserModel = mongoose.Model<UserDoc>;
+userSchema.statics.comparePassword = async (
+  providedPass: string,
+  userPass: string
+): Promise<boolean> => {
+  return await bcrypt.compare(providedPass, userPass);
+};
+
+interface UserModel extends mongoose.Model<UserDoc> {
+  comparePassword(providedPass: string, userPass: string): Promise<boolean>;
+}
 
 const User =
   (mongoose.models.User as UserModel) ||

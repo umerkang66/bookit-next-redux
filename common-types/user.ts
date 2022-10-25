@@ -5,12 +5,13 @@ interface UserAvatar {
   url: string;
 }
 
-export interface RoomAttrs {
+export interface UserAttrs {
+  // when it is provided from dom, it is string, when it coming from server, it is UserAvatar
   name: string;
   email: string;
   password: string;
-  avatar: UserAvatar;
-  role: 'user' | 'admin';
+  avatar: UserAvatar | string;
+  role?: 'user' | 'admin';
 }
 
 export interface UserDoc extends mongoose.Document {
@@ -24,11 +25,10 @@ export interface UserDoc extends mongoose.Document {
   resetPasswordExpire?: Date;
 }
 
-export interface Room {
+export interface User {
   _id: string;
   name: string;
   email: string;
-  password: string;
   avatar: UserAvatar;
   role: 'user' | 'admin';
   createdAt: Date;

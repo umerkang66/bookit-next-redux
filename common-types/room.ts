@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { User } from './user';
 
 interface RoomImage {
   public_id: string;
@@ -6,7 +7,7 @@ interface RoomImage {
 }
 
 interface RoomReview {
-  user: any;
+  user: User;
   name: string;
   rating: number;
   comment: string;
@@ -14,7 +15,7 @@ interface RoomReview {
 
 export interface RoomAttrs {
   name: string;
-  user: any;
+  user: User;
   price: number;
   description: string;
   address: string;
@@ -34,7 +35,7 @@ export interface RoomAttrs {
 
 export interface RoomDoc extends mongoose.Document {
   name: string;
-  user: any;
+  user: User;
   price: number;
   description: string;
   address: string;
@@ -56,7 +57,7 @@ export interface RoomDoc extends mongoose.Document {
 export interface Room {
   _id: string;
   name: string;
-  user: any;
+  user: User;
   price: number;
   description: string;
   address: string;
