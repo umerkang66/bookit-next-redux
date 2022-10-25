@@ -6,6 +6,8 @@ import { Provider } from 'react-redux';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { getCurrentUserAction } from '../state/action-creators';
+import { Action as DefaultAction } from 'redux';
 
 function MyApp({ Component, ...rest }: AppProps) {
   const { store, props } = wrapper.useWrappedStore(rest);
@@ -19,5 +21,14 @@ function MyApp({ Component, ...rest }: AppProps) {
     </Provider>
   );
 }
+
+// @ts-ignore
+MyApp.getInitialProps = wrapper.getInitialAppProps(store => {
+  return async appContext => {
+    await store.dispatch(
+      getCurrentUserAction(appContext.ctx.req) as unknown as DefaultAction
+    );
+  };
+});
 
 export default MyApp;

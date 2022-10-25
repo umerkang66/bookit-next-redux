@@ -1,6 +1,7 @@
 import { User, Room } from '../../common-types';
 import {
   AllRoomsActionType,
+  CurrentUserActionTypes,
   GetRoomActionType,
   SignupActionTypes,
 } from '../action-types';
@@ -36,6 +37,18 @@ interface SignupUserErrorAction {
   payload: string;
 }
 
+interface GetCurrentuserStartAction {
+  type: CurrentUserActionTypes.GET_CURRENTUSER_START;
+}
+interface GetCurrentuserSuccessAction {
+  type: CurrentUserActionTypes.GET_CURRENTUSER_SUCCESS;
+  payload: User;
+}
+interface GetCurrentuserErrorAction {
+  type: CurrentUserActionTypes.GET_CURRENTUSER_ERROR;
+  payload: string;
+}
+
 export type Action =
   | AllRoomsSuccessAction
   | AllRoomsErrorAction
@@ -43,4 +56,7 @@ export type Action =
   | GetRoomErrorAction
   | SignupUserStartAction
   | SignupUserSuccessAction
-  | SignupUserErrorAction;
+  | SignupUserErrorAction
+  | GetCurrentuserStartAction
+  | GetCurrentuserSuccessAction
+  | GetCurrentuserErrorAction;

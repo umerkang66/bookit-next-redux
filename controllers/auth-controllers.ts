@@ -32,3 +32,14 @@ export const signup = catchAsync(async (req, res) => {
     message: 'User registered successfully',
   });
 });
+
+// requireAuth middleware runs before this
+export const getCurrentUser = catchAsync(async (req, res) => {
+  const user = await User.findOne({ email: req.user.email });
+  res.status(200).json({ success: true, user });
+});
+
+export const deleteAllUsers = catchAsync(async (req, res) => {
+  await User.deleteMany({});
+  res.status(200).json({ success: true, message: 'All users deleted' });
+});

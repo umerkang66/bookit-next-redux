@@ -1,22 +1,22 @@
 import { Action } from '../action';
 import { SignupActionTypes } from '../action-types';
 
-interface UserState {
+interface SignupState {
   loading: boolean;
   error: string | null;
   successMessage: string | null;
 }
 
-const initialState: UserState = {
+const initialState: SignupState = {
   loading: false,
   error: null,
   successMessage: null,
 };
 
 export const signupReducer = (
-  state: UserState = initialState,
+  state: SignupState = initialState,
   action: Action
-): UserState => {
+): SignupState => {
   switch (action.type) {
     case SignupActionTypes.SIGNUP_USER_START:
       return { ...state, loading: true, error: null, successMessage: null };

@@ -6,6 +6,7 @@ import { dbConnect } from '../../../utils/db-connect';
 
 const authOptions: NextAuthOptions = {
   session: { strategy: 'jwt' },
+  secret: process.env.NEXTAUTH_JWT_SECRET,
   providers: [
     CredentialsProvider({
       type: 'credentials',
@@ -34,8 +35,8 @@ const authOptions: NextAuthOptions = {
         }
 
         // if we return obj, we let next-auth know that authorization succeeded
-        // this obj will also be encoded in jwt
-        return { id: user.id, email: user.email, avatar: user.avatar };
+        // this obj will also be encoded in jwt as the user obj
+        return { id: user.id, name: user.name, email: user.email };
       },
     }),
   ],

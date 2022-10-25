@@ -1,6 +1,14 @@
 import Link from 'next/link';
+import { signOut } from 'next-auth/react';
+import { useTypedSelector } from '../../hooks/use-typed-selector';
 
 const Header = () => {
+  const { user } = useTypedSelector(state => state.currentuser);
+
+  const logoutHandler = (): void => {
+    signOut();
+  };
+
   return (
     <nav className="navbar row justify-content-center sticky-top">
       <div className="container">
@@ -17,11 +25,54 @@ const Header = () => {
         </div>
 
         <div className="col-3 mt-3 mt-md-0 text-center">
-          <Link href="/auth/signin">
-            <a className="btn btn-danger px-4 text-white login-header-btn float-right">
-              Login
-            </a>
-          </Link>
+          {user ? (
+            <div className="ml-4 dropdown d-line">
+              <a
+                className="btn dropdown-toggle mr-4"
+                id="dropDownMenuButton"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <figure className="avatar avatar-nav">
+                  <img
+                    src={user.avatar && user.avatar.url}
+                    alt={user && user.name}
+                    className="rounded-circle"
+                  />
+                </figure>
+                <span>{user && user.name}</span>
+              </a>
+
+              <div
+                className="dropdown-menu"
+                aria-aria-labelledby="dropDownMenuButton"
+              >
+                <Link href="/bookings/me">
+                  <a className="dropdown-item">My Bookings</a>
+                </Link>
+
+                <Link href="/auth/me">
+                  <a className="dropdown-item">Profile</a>
+                </Link>
+
+                <Link href="/ ">
+                  <a
+                    onClick={logoutHandler}
+                    className="dropdown-item text-danger"
+                  >
+                    Logout
+                  </a>
+                </Link>
+              </div>
+            </div>
+          ) : (
+            <Link href="/auth/signin">
+              <a className="btn btn-danger px-4 text-white login-header-btn float-right">
+                Login
+              </a>
+            </Link>
+          )}
         </div>
       </div>
     </nav>
