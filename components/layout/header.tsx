@@ -46,13 +46,13 @@ const Header = () => {
 
               <div
                 className="dropdown-menu"
-                aria-aria-labelledby="dropDownMenuButton"
+                aria-labelledby="dropDownMenuButton"
               >
                 <Link href="/bookings/me">
                   <a className="dropdown-item">My Bookings</a>
                 </Link>
 
-                <Link href="/auth/me">
+                <Link href="/auth/me/update">
                   <a className="dropdown-item">Profile</a>
                 </Link>
 
