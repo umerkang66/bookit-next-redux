@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import validator from 'validator';
 import bcrypt from 'bcryptjs';
+import crypto from 'crypto';
 import { UserDoc } from '../common-types/user';
 
 const userSchema = new mongoose.Schema({
@@ -55,16 +56,27 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
-userSchema.statics.comparePassword = async (
-  providedPass: string,
-  userPass: string
-): Promise<boolean> => {
-  return await bcrypt.compare(providedPass, userPass);
+userSchema.methods.comparePassword = async function (
+  providedPass: string
+): Promise<boolean> {
+  return await bcrypt.compare(providedPass, this.password);
 };
 
-interface UserModel extends mongoose.Model<UserDoc> {
-  comparePassword(providedPass: string, userPass: string): Promise<boolean>;
-}
+// Generate password reset token
+userSchema.methods.getResetPasswordToken = async function () {
+  const resetToken = crypto.randomBytes(20).toString('hex');
+
+  this.resetPasswordToken = crypto
+    .createHash('sha256')
+    .update(resetToken)
+    .digest();
+
+  this.resetPasswordExpire = Date.now() + 30 * 60 * 1000; // expires after 30 minutes
+
+  return resetToken;
+};
+
+type UserModel = mongoose.Model<UserDoc>;
 
 const User =
   (mongoose.models.User as UserModel) ||

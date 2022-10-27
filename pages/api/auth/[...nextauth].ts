@@ -26,10 +26,7 @@ const authOptions: NextAuthOptions = {
           throw new Error('Invalid email of password');
         }
 
-        const isPasswordCorrect = await User.comparePassword(
-          password,
-          user.password
-        );
+        const isPasswordCorrect = await user.comparePassword(password);
         if (!isPasswordCorrect) {
           throw new Error('Invalid email of password');
         }

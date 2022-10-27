@@ -23,6 +23,8 @@ export interface UserDoc extends mongoose.Document {
   createdAt: Date;
   resetPasswordToken?: string;
   resetPasswordExpire?: Date;
+  comparePassword(providedPass: string): Promise<boolean>;
+  getResetPasswordToken(): Promise<string>;
 }
 
 export interface User {
