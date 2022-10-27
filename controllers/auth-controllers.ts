@@ -64,10 +64,10 @@ export const updateUser = catchAsync(async (req, res, next) => {
     return next(new CustomError('User currently does not exist', 400));
   }
 
-  if (req.body.name) user.name = req.body.name;
-  if (req.body.email) user.email = req.body.email;
+  if (req.body.name && req.body.name !== user.name) user.name = req.body.name;
+  if (req.body.email && req.body.email !== user.email)
+    user.email = req.body.email;
   if (req.body.password) user.password = req.body.password;
-  if (req.body.role) user.role = req.body.role;
 
   if (req.body.avatar) {
     // this will only happen if user provided an avatar

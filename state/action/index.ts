@@ -4,6 +4,7 @@ import {
   CurrentUserActionTypes,
   GetRoomActionType,
   SignupActionTypes,
+  UpdateUserActionTypes,
 } from '../action-types';
 
 interface AllRoomsSuccessAction {
@@ -30,10 +31,12 @@ interface SignupUserStartAction {
 }
 interface SignupUserSuccessAction {
   type: SignupActionTypes.SIGNUP_USER_SUCCESS;
+  // this would be an success message
   payload: string;
 }
 interface SignupUserErrorAction {
   type: SignupActionTypes.SIGNUP_USER_ERROR;
+  // this should error message
   payload: string;
 }
 
@@ -49,6 +52,20 @@ interface GetCurrentuserErrorAction {
   payload: string;
 }
 
+interface UpdateUserStartAction {
+  type: UpdateUserActionTypes.UPDATE_USER_START;
+}
+interface UpdateUserSuccessAction {
+  type: UpdateUserActionTypes.UPDATE_USER_SUCCESS;
+  // this would be an success message
+  payload: string;
+}
+interface UpdateUserErrorAction {
+  type: UpdateUserActionTypes.UPDATE_USER_ERROR;
+  // this should error message
+  payload: string;
+}
+
 export type Action =
   | AllRoomsSuccessAction
   | AllRoomsErrorAction
@@ -59,4 +76,7 @@ export type Action =
   | SignupUserErrorAction
   | GetCurrentuserStartAction
   | GetCurrentuserSuccessAction
-  | GetCurrentuserErrorAction;
+  | GetCurrentuserErrorAction
+  | UpdateUserStartAction
+  | UpdateUserSuccessAction
+  | UpdateUserErrorAction;

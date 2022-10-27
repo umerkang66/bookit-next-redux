@@ -12,6 +12,6 @@ handler.use(async (req, res, next) => {
   next();
 });
 
-handler.use(requireAuth).get(updateUser);
+handler.use(requireAuth).patch(updateUser);
 
 export default handler;

@@ -1,8 +1,13 @@
 import { GetServerSideProps } from 'next';
 import { getSession } from 'next-auth/react';
+import UpdateUser from '../../../components/auth/update-user';
 
 const UpdateProfilePage = () => {
-  return <div>UpdateProfilePage</div>;
+  return (
+    <div>
+      <UpdateUser />
+    </div>
+  );
 };
 
 export const getServerSideProps: GetServerSideProps = async context => {

@@ -2,17 +2,18 @@ import React, { FC } from 'react';
 // import Image from 'next/image';
 import Link from 'next/link';
 import { Room } from '../../common-types/room';
+import Image from 'next/image';
 
 const RoomItem: FC<{ room: Room }> = ({ room }) => {
   return (
     <div key={room._id} className="col-sm-12 col-md-6 col-lg-3 my-3">
       <div className="card p-2">
-        {/* <Image
+        <Image
           className="card-img-top mx-auto"
           src={room.images[0].url}
           height={170}
           width={200}
-        /> */}
+        />
         <div className="card-body d-flex flex-column">
           <h5 className="card-title">
             <Link href={`/rooms/${room._id}`}>{room.name}</Link>
