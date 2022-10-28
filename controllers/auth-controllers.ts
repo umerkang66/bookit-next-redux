@@ -1,7 +1,10 @@
+import crypto from 'crypto';
+import cd from 'cloudinary';
 import User from '../models/user';
 import { catchAsync } from '../utils/catch-async';
-import cd from 'cloudinary';
 import { CustomError } from '../utils/custom-error';
+import { sendEmail } from '../utils/email';
+import absoluteUrl from 'next-absolute-url';
 
 // Setting up cloudinary config
 const cloudinary = cd.v2;
@@ -93,4 +96,77 @@ export const updateUser = catchAsync(async (req, res, next) => {
 
   await user.save();
   res.status(200).json({ success: true, message: 'User updated successfully' });
+});
+
+// requireAuth will NOT run before this
+export const forgotPassword = catchAsync(async (req, res, next) => {
+  const user = await User.findOne({ email: req.body.email });
+
+  if (!user) {
+    return next(new CustomError('User currently does not exist', 400));
+  }
+
+  const from = `BookIt <noreply@bookit.com>`;
+  const subject = 'Reset your password';
+  const resetToken = await user.getResetPasswordToken();
+  await user.save();
+
+  const resetPasswordUrl = `${
+    absoluteUrl(req).origin
+  }/auth/reset-password/${resetToken}`;
+
+  const text = `Your password reset url:\n\n${resetPasswordUrl}\n\nIf you have not requested this email, Please just ignore it`;
+
+  try {
+    await sendEmail({ from, to: req.body.email, subject, text });
+  } catch (err: any) {
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+    await user.save();
+
+    const errorMsg =
+      err.message || 'Unfortunately email cannot be sent for some reason';
+    return next(new CustomError(errorMsg, 500));
+  }
+
+  const successMsg = 'Recovery email has been sent to your email address';
+  res.status(200).json({
+    success: true,
+    message: successMsg,
+  });
+});
+
+// requireAuth will NOT run before this
+export const resetPassword = catchAsync(async (req, res, next) => {
+  const { password, passwordConfirm } = req.body;
+  const hashedToken = crypto
+    .createHash('sha256')
+    .update(req.query.token as string)
+    .digest();
+
+  const user = await User.findOne({
+    resetPasswordToken: hashedToken,
+    // it means token is not expired yet
+    resetPasswordExpire: { $gte: Date.now() },
+  });
+
+  if (!user) {
+    return next(new CustomError('Token is invalid or expired', 400));
+  }
+  if (password !== passwordConfirm) {
+    return next(
+      new CustomError("Password and Password confirm don't match", 400)
+    );
+  }
+
+  user.password = password;
+  user.resetPasswordToken = undefined;
+  user.resetPasswordExpire = undefined;
+  await user.save();
+
+  const successMsg = 'Your password has been reset';
+  res.status(200).json({
+    success: true,
+    message: successMsg,
+  });
 });

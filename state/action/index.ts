@@ -3,9 +3,11 @@ import {
   AllRoomsActionType,
   CurrentUserActionTypes,
   GetRoomActionType,
+  ResetPasswordActionTypes,
   SignupActionTypes,
   UpdateUserActionTypes,
 } from '../action-types';
+import { ForgotPasswordActionTypes } from '../action-types/forgot-password-action-types';
 
 interface AllRoomsSuccessAction {
   type: AllRoomsActionType.All_ROOMS_SUCCESS;
@@ -66,6 +68,34 @@ interface UpdateUserErrorAction {
   payload: string;
 }
 
+interface ForgotPasswordStartAction {
+  type: ForgotPasswordActionTypes.FORGOT_PASSWORD_START;
+}
+interface ForgotPasswordSuccessAction {
+  type: ForgotPasswordActionTypes.FORGOT_PASSWORD_SUCCESS;
+  // this would be an success message
+  payload: string;
+}
+interface ForgotPasswordErrorAction {
+  type: ForgotPasswordActionTypes.FORGOT_PASSWORD_ERROR;
+  // this should error message
+  payload: string;
+}
+
+interface ResetPasswordStartAction {
+  type: ResetPasswordActionTypes.RESET_PASSWORD_START;
+}
+interface ResetPasswordSuccessAction {
+  type: ResetPasswordActionTypes.RESET_PASSWORD_SUCCESS;
+  // this would be an success message
+  payload: string;
+}
+interface ResetPasswordErrorAction {
+  type: ResetPasswordActionTypes.RESET_PASSWORD_ERROR;
+  // this should error message
+  payload: string;
+}
+
 export type Action =
   | AllRoomsSuccessAction
   | AllRoomsErrorAction
@@ -79,4 +109,10 @@ export type Action =
   | GetCurrentuserErrorAction
   | UpdateUserStartAction
   | UpdateUserSuccessAction
-  | UpdateUserErrorAction;
+  | UpdateUserErrorAction
+  | ForgotPasswordStartAction
+  | ForgotPasswordSuccessAction
+  | ForgotPasswordErrorAction
+  | ResetPasswordStartAction
+  | ResetPasswordSuccessAction
+  | ResetPasswordErrorAction;
