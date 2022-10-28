@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useTypedSelector } from '../../hooks/use-typed-selector';
 import { toast } from 'react-toastify';
 import ButtonLoader from '../layout/button-loader';
-import { useActions } from '../../hooks/useActions';
+import { useActions } from '../../hooks/use-actions';
 
 const ResetPassword: FC<{ token: string | undefined }> = ({ token }) => {
   const [password, setPassword] = useState('');
@@ -23,7 +23,7 @@ const ResetPassword: FC<{ token: string | undefined }> = ({ token }) => {
       toast.success(successMessage);
       router.push('/auth/signin');
     }
-  }, [error, successMessage]);
+  }, [router, token, error, successMessage]);
 
   const submitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

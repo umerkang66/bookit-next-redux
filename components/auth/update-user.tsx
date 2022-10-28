@@ -3,10 +3,11 @@ import { signOut } from 'next-auth/react';
 
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
-import { useActions } from '../../hooks/useActions';
+import { useActions } from '../../hooks/use-actions';
 import { useTypedSelector } from '../../hooks/use-typed-selector';
 import ButtonLoader from '../layout/button-loader';
 import { User } from '../../common-types';
+import Image from 'next/image';
 
 const UpdateUser = () => {
   const actions = useActions();
@@ -47,7 +48,7 @@ const UpdateUser = () => {
     };
 
     routeUser();
-  }, [successMessage, error]);
+  }, [router, changeForSignout, successMessage, error]);
 
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -132,10 +133,12 @@ const UpdateUser = () => {
               <div className="d-flex align-items-center">
                 <div>
                   <figure className="avatar mr-3 item-rtl">
-                    <img
+                    <Image
                       src={avatarPreview}
                       className="rounded-circle"
                       alt="image"
+                      height="60"
+                      width="60"
                     />
                   </figure>
                 </div>

@@ -1,9 +1,10 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
-import { useActions } from '../../hooks/useActions';
+import { useActions } from '../../hooks/use-actions';
 import { useTypedSelector } from '../../hooks/use-typed-selector';
 import ButtonLoader from '../layout/button-loader';
+import Image from 'next/image';
 
 const Signup = () => {
   const actions = useActions();
@@ -30,7 +31,7 @@ const Signup = () => {
     if (error) {
       toast.error(error);
     }
-  }, [successMessage, error]);
+  }, [router, successMessage, error]);
 
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -111,10 +112,12 @@ const Signup = () => {
               <div className="d-flex align-items-center">
                 <div>
                   <figure className="avatar mr-3 item-rtl">
-                    <img
+                    <Image
                       src={avatarPreview}
                       className="rounded-circle"
                       alt="image"
+                      height="60"
+                      width="60"
                     />
                   </figure>
                 </div>

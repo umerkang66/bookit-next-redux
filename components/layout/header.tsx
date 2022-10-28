@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { signOut } from 'next-auth/react';
 import { useTypedSelector } from '../../hooks/use-typed-selector';
 
@@ -15,10 +16,12 @@ const Header = () => {
         <div className="col-3 p-0">
           <div className="navbar-brand">
             <Link href="/">
-              <img
+              <Image
                 style={{ cursor: 'pointer' }}
                 src="/images/bookit_logo.png"
                 alt="BookIT"
+                height="60"
+                width="200"
               />
             </Link>
           </div>
@@ -35,10 +38,13 @@ const Header = () => {
                 aria-expanded="false"
               >
                 <figure className="avatar avatar-nav">
-                  <img
+                  <Image
                     src={user.avatar && user.avatar.url}
                     alt={user && user.name}
                     className="rounded-circle"
+                    layout="fixed"
+                    height="40"
+                    width="40"
                   />
                 </figure>
                 <span>{user && user.name}</span>

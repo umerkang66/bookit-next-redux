@@ -1,7 +1,7 @@
 import { useState, useEffect, FormEvent } from 'react';
 import { toast } from 'react-toastify';
 import ButtonLoader from '../layout/button-loader';
-import { useActions } from '../../hooks/useActions';
+import { useActions } from '../../hooks/use-actions';
 import { useTypedSelector } from '../../hooks/use-typed-selector';
 
 const ForgotPassword = () => {
