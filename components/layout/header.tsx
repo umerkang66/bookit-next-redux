@@ -4,7 +4,7 @@ import { signOut } from 'next-auth/react';
 import { useTypedSelector } from '../../hooks/use-typed-selector';
 
 const Header = () => {
-  const { user } = useTypedSelector(state => state.currentuser);
+  const { user, error, loading } = useTypedSelector(state => state.currentuser);
 
   const logoutHandler = (): void => {
     signOut();

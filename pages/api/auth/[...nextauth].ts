@@ -33,21 +33,10 @@ const authOptions: NextAuthOptions = {
 
         // if we return obj, we let next-auth know that authorization succeeded
         // this obj will also be encoded in jwt as the user obj
-        return Promise.resolve({ id: user._id, ...user });
+        return { id: user.id, email: user.email };
       },
     }),
   ],
-  callbacks: {
-    jwt: async ({ token, user }) => {
-      user && (token.user = user);
-      return token;
-    },
-    session: async ({ session, token }) => {
-      // @ts-ignore
-      session.user = token.user;
-      return session;
-    },
-  },
 };
 
 export default nextAuth(authOptions);

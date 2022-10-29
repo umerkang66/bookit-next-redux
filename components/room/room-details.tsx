@@ -9,17 +9,37 @@ import Image from 'next/image';
 import { Carousel } from 'react-bootstrap';
 import RoomFeatures from './room-features';
 import axios from 'axios';
+import { useActions } from '../../hooks/use-actions';
 
 const RoomDetails: FC = () => {
   const [checkInDate, setCheckInDate] = useState<Date>();
   const [checkOutDate, setCheckOutDate] = useState<Date>();
   const [daysOfStay, setDaysOfStay] = useState(1);
+  const actions = useActions();
 
   const roomState = useTypedSelector(state => state.room);
   const currentuserState = useTypedSelector(state => state.currentuser);
+  const roomAvailabilityState = useTypedSelector(
+    state => state.checkRoomAvailability
+  );
+  const bookedDatesState = useTypedSelector(state => state.bookedDates);
 
   const { error: roomError, room } = roomState;
-  const { error, user } = currentuserState;
+  const { user } = currentuserState;
+  const {
+    error: availabilityError,
+    loading: availabilityLoading,
+    availability: isAvailable,
+  } = roomAvailabilityState;
+  const {
+    error: bookedDatesError,
+    loading: bookedDatesLoading,
+    bookedDates,
+  } = bookedDatesState;
+
+  const excludedDates = bookedDates
+    .flatMap(date => date)
+    .map(date => new Date(date));
 
   const dateOnChange = (date: [Date | null, Date | null]) => {
     const [checkInDate, checkOutDate] = date;
@@ -31,7 +51,7 @@ const RoomDetails: FC = () => {
       setDaysOfStay(1);
     }
 
-    if (checkInDate && checkOutDate) {
+    if (room && checkInDate && checkOutDate) {
       const oneDayMilliseconds = 24 * 60 * 60 * 1000;
       // these are milliseconds, divide by milliseconds of 1 day to get the days
       const days = Math.floor(
@@ -39,6 +59,12 @@ const RoomDetails: FC = () => {
           1
       );
       setDaysOfStay(days);
+
+      actions.checkRoomAvailabilityAction({
+        roomId: room._id.toString(),
+        checkInDate,
+        checkOutDate,
+      });
     }
   };
 
@@ -71,8 +97,10 @@ const RoomDetails: FC = () => {
   };
 
   useEffect(() => {
+    if (room) actions.bookedDatesAction({ roomId: room._id });
+
     if (roomError) toast.error(roomError);
-  }, [roomError, toast]);
+  }, [room, roomError, toast]);
 
   if (roomError) {
     return (
@@ -145,20 +173,42 @@ const RoomDetails: FC = () => {
 
                 <DatePicker
                   className="w-100"
+                  minDate={new Date()}
                   selected={checkInDate}
                   onChange={dateOnChange}
                   startDate={checkInDate}
                   endDate={checkOutDate}
+                  excludeDates={excludedDates}
                   selectsRange
                   inline
                 />
 
-                <button
-                  onClick={newBookingHandler}
-                  className="btn btn-block py-3 booking-btn"
-                >
-                  Pay
-                </button>
+                {isAvailable && (
+                  <div className="alert alert-success my-3 font-weight-bold">
+                    Room is available. Book now!
+                  </div>
+                )}
+
+                {isAvailable === false && (
+                  <div className="alert alert-danger my-3 font-weight-bold">
+                    Room is not available. Try different dates.
+                  </div>
+                )}
+
+                {isAvailable && !user && (
+                  <div className="alert alert-danger my-3 font-weight-bold">
+                    Login to book room.
+                  </div>
+                )}
+
+                {isAvailable && user && (
+                  <button
+                    onClick={newBookingHandler}
+                    className="btn btn-block py-3 booking-btn"
+                  >
+                    Pay
+                  </button>
+                )}
               </div>
             </div>
           </div>

@@ -1,13 +1,15 @@
 import { User, Room } from '../../common-types';
 import {
   AllRoomsActionType,
+  BookedDatesActionTypes,
+  CheckRoomAvailabilityActionTypes,
   CurrentUserActionTypes,
   GetRoomActionType,
   ResetPasswordActionTypes,
   SignupActionTypes,
   UpdateUserActionTypes,
 } from '../action-types';
-import { ForgotPasswordActionTypes } from '../action-types/forgot-password-action-types';
+import { ForgotPasswordActionTypes } from '../action-types/users/forgot-password-action-types';
 
 interface AllRoomsSuccessAction {
   type: AllRoomsActionType.All_ROOMS_SUCCESS;
@@ -96,6 +98,37 @@ interface ResetPasswordErrorAction {
   payload: string;
 }
 
+interface CheckRoomAvailabilityStartAction {
+  type: CheckRoomAvailabilityActionTypes.CHECK_ROOM_AVAILABILITY_START;
+}
+interface CheckRoomAvailabilitySuccessAction {
+  type: CheckRoomAvailabilityActionTypes.CHECK_ROOM_AVAILABILITY_SUCCESS;
+  // this should tell if room is available or not
+  payload: boolean;
+}
+interface CheckRoomAvailabilityResetAction {
+  type: CheckRoomAvailabilityActionTypes.CHECK_ROOM_AVAILABILITY_RESET;
+}
+interface CheckRoomAvailabilityErrorAction {
+  type: CheckRoomAvailabilityActionTypes.CHECK_ROOM_AVAILABILITY_ERROR;
+  // this should be error message
+  payload: string;
+}
+
+interface BookedDatesStartAction {
+  type: BookedDatesActionTypes.BOOKED_DATES_START;
+}
+interface BookedDatesSuccessAction {
+  type: BookedDatesActionTypes.BOOKED_DATES_SUCCESS;
+  // range of dates
+  payload: string[][];
+}
+interface BookedDatesErrorAction {
+  type: BookedDatesActionTypes.BOOKED_DATES_ERROR;
+  // this should be error message
+  payload: string;
+}
+
 export type Action =
   | AllRoomsSuccessAction
   | AllRoomsErrorAction
@@ -115,4 +148,11 @@ export type Action =
   | ForgotPasswordErrorAction
   | ResetPasswordStartAction
   | ResetPasswordSuccessAction
-  | ResetPasswordErrorAction;
+  | ResetPasswordErrorAction
+  | CheckRoomAvailabilityStartAction
+  | CheckRoomAvailabilitySuccessAction
+  | CheckRoomAvailabilityResetAction
+  | CheckRoomAvailabilityErrorAction
+  | BookedDatesStartAction
+  | BookedDatesSuccessAction
+  | BookedDatesErrorAction;
