@@ -1,20 +1,80 @@
-import { type FC, useEffect } from 'react';
+import { type FC, useState, useEffect } from 'react';
 import { useTypedSelector } from '../../hooks/use-typed-selector';
 import { toast } from 'react-toastify';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+
 import Head from 'next/head';
 import Image from 'next/image';
 import { Carousel } from 'react-bootstrap';
 import RoomFeatures from './room-features';
+import axios from 'axios';
 
 const RoomDetails: FC = () => {
+  const [checkInDate, setCheckInDate] = useState<Date>();
+  const [checkOutDate, setCheckOutDate] = useState<Date>();
+  const [daysOfStay, setDaysOfStay] = useState(1);
+
   const roomState = useTypedSelector(state => state.room);
-  const { room, error } = roomState;
+  const currentuserState = useTypedSelector(state => state.currentuser);
+
+  const { error: roomError, room } = roomState;
+  const { error, user } = currentuserState;
+
+  const dateOnChange = (date: [Date | null, Date | null]) => {
+    const [checkInDate, checkOutDate] = date;
+
+    setCheckInDate(checkInDate as Date);
+    setCheckOutDate(checkOutDate as Date);
+
+    if (checkInDate || checkOutDate) {
+      setDaysOfStay(1);
+    }
+
+    if (checkInDate && checkOutDate) {
+      const oneDayMilliseconds = 24 * 60 * 60 * 1000;
+      // these are milliseconds, divide by milliseconds of 1 day to get the days
+      const days = Math.floor(
+        (checkOutDate.getTime() - checkInDate.getTime()) / oneDayMilliseconds +
+          1
+      );
+      setDaysOfStay(days);
+    }
+  };
+
+  const newBookingHandler = async () => {
+    if (room && user) {
+      const bookingData = {
+        room: room._id,
+        user: user._id,
+        checkInDate,
+        checkOutDate,
+        amountPaid: 90,
+        paymentInfo: {
+          id: 'STRIPE_PAYMENT_ID',
+          status: 'STRIPE_PAYMENT_STATUS',
+        },
+        paidAt: Date.now(),
+        daysOfStay,
+      };
+
+      try {
+        const { data } = await axios.post('/api/bookings', bookingData);
+        console.log(data);
+      } catch (err: any) {
+        toast.error('🚀🚀', err.response.data.message);
+      }
+    } else {
+      // user is not logged in
+      toast.error('Please login to perform this action');
+    }
+  };
 
   useEffect(() => {
-    if (error) toast.error(error);
-  });
+    if (roomError) toast.error(roomError);
+  }, [roomError, toast]);
 
-  if (error) {
+  if (roomError) {
     return (
       <div>
         <Head>
@@ -79,7 +139,26 @@ const RoomDetails: FC = () => {
                   <b>${room.price}</b> / night
                 </p>
 
-                <button className="btn btn-block py-3 booking-btn">Pay</button>
+                <hr />
+
+                <p className="mt-5 mb-3">Pick Check In and Check Out Date</p>
+
+                <DatePicker
+                  className="w-100"
+                  selected={checkInDate}
+                  onChange={dateOnChange}
+                  startDate={checkInDate}
+                  endDate={checkOutDate}
+                  selectsRange
+                  inline
+                />
+
+                <button
+                  onClick={newBookingHandler}
+                  className="btn btn-block py-3 booking-btn"
+                >
+                  Pay
+                </button>
               </div>
             </div>
           </div>

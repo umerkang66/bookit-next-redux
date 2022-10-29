@@ -1,7 +1,7 @@
 import nc from 'next-connect';
+import { newBooking } from '../../../controllers/booking-controllers';
 import { dbConnect } from '../../../utils/db-connect';
-import { errorHandler } from '../../../middlewares';
-import { forgotPassword } from '../../../controllers/auth-controllers';
+import { requireAuth, errorHandler } from '../../../middlewares';
 
 const handler = nc({ onError: errorHandler });
 
@@ -11,6 +11,7 @@ handler.use(async (req, res, next) => {
   next();
 });
 
-handler.post(forgotPassword);
+// routes without id
+handler.use(requireAuth).post(newBooking);
 
 export default handler;

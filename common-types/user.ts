@@ -37,7 +37,10 @@ export interface User {
 
 // This is the session user, that is also present in the nextApiRequest
 export interface RequestUser {
-  id: string;
+  _id: string;
   name: string;
   email: string;
+  avatar: UserAvatar;
+  role: 'user' | 'admin';
+  createdAt: string;
 }

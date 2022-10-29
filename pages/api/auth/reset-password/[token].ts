@@ -1,6 +1,6 @@
 import nc from 'next-connect';
 import { dbConnect } from '../../../../utils/db-connect';
-import { errorHandler } from '../../../../middlewares/error-handler';
+import { errorHandler } from '../../../../middlewares';
 import { resetPassword } from '../../../../controllers/auth-controllers';
 
 const handler = nc({ onError: errorHandler });

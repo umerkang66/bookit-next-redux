@@ -1,8 +1,7 @@
 import nc from 'next-connect';
 import { dbConnect } from '../../../../utils/db-connect';
-import { errorHandler } from '../../../../middlewares/error-handler';
 import { getCurrentUser } from '../../../../controllers/auth-controllers';
-import { requireAuth } from '../../../../middlewares/require-auth';
+import { requireAuth, errorHandler } from '../../../../middlewares';
 
 const handler = nc({ onError: errorHandler });
 

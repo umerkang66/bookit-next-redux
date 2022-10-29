@@ -13,12 +13,12 @@
     "roomCleaning": true,
     "images": [
       {
-        "public_id": "bookit/rooms/1_bzynlv",
-        "url": "https://res.cloudinary.com/bookit/image/upload/v1618590762/bookit/rooms/1_bzynlv.jpg"
+        "public_id": "bookit/rooms/patrick-robert-doyle-pZ6W7HuuY6w-unsplash_t71bb3",
+        "url": "https://res.cloudinary.com/dvxt8pfbu/image/upload/v1666867349/bookit/rooms/patrick-robert-doyle-pZ6W7HuuY6w-unsplash_t71bb3.jpg"
       },
       {
-        "public_id": "bookit/rooms/2_s1u52n",
-        "url": "https://res.cloudinary.com/bookit/image/upload/v1618590761/bookit/rooms/2_s1u52n.jpg"
+        "public_id": "bookit/rooms/pexels-pixabay-262048_tiu0si",
+        "url": "https://res.cloudinary.com/dvxt8pfbu/image/upload/v1667028954/bookit/rooms/pexels-pixabay-262048_tiu0si.jpg"
       }
     ],
     "category": "King"
@@ -37,8 +37,8 @@
     "roomCleaning": true,
     "images": [
       {
-        "public_id": "bookit/rooms/3_quuli7.jpg",
-        "url": "https://res.cloudinary.com/bookit/image/upload/v1618590762/bookit/rooms/3_quuli7.jpg"
+        "public_id": "bookit/rooms/markus-spiske-g5ZIXjzRGds-unsplash_jgsnar",
+        "url": "https://res.cloudinary.com/dvxt8pfbu/image/upload/v1666867350/bookit/rooms/markus-spiske-g5ZIXjzRGds-unsplash_jgsnar.jpg"
       }
     ],
     "category": "Twins"
@@ -57,8 +57,8 @@
     "roomCleaning": false,
     "images": [
       {
-        "public_id": "bookit/rooms/4_sju0ql",
-        "url": "https://res.cloudinary.com/bookit/image/upload/v1618590765/bookit/rooms/4_sju0ql.jpg"
+        "public_id": "bookit/rooms/felipepelaquim-BmoOdR6YP9o-unsplash_a7jgtx",
+        "url": "https://res.cloudinary.com/dvxt8pfbu/image/upload/v1666867351/bookit/rooms/felipepelaquim-BmoOdR6YP9o-unsplash_a7jgtx.jpg"
       }
     ],
     "category": "King"
@@ -77,12 +77,12 @@
     "roomCleaning": true,
     "images": [
       {
-        "public_id": "bookit/rooms/5_jmydt6",
-        "url": "https://res.cloudinary.com/bookit/image/upload/v1618590762/bookit/rooms/5_jmydt6.jpg"
+        "public_id": "bookit/rooms/andrew-neel-B4rEJ09-Puo-unsplash_wpook5",
+        "url": "https://res.cloudinary.com/dvxt8pfbu/image/upload/v1666867351/bookit/rooms/andrew-neel-B4rEJ09-Puo-unsplash_wpook5.jpg"
       },
       {
-        "public_id": "bookit/rooms/6_nwmr5f",
-        "url": "https://res.cloudinary.com/bookit/image/upload/v1618590764/bookit/rooms/6_nwmr5f.jpg"
+        "public_id": "bookit/rooms/pexels-pixabay-237371_dyqjae",
+        "url": "https://res.cloudinary.com/dvxt8pfbu/image/upload/v1667028953/bookit/rooms/pexels-pixabay-237371_dyqjae.jpg"
       }
     ],
     "category": "Single"
@@ -101,8 +101,8 @@
     "roomCleaning": true,
     "images": [
       {
-        "public_id": "bookit/rooms/7_hshhzq",
-        "url": "https://res.cloudinary.com/bookit/image/upload/v1618590764/bookit/rooms/7_hshhzq.jpg"
+        "public_id": "bookit/rooms/christopher-jolly-GqbU78bdJFM-unsplash_ve3a9s",
+        "url": "https://res.cloudinary.com/dvxt8pfbu/image/upload/v1666867351/bookit/rooms/christopher-jolly-GqbU78bdJFM-unsplash_ve3a9s.jpg"
       }
     ],
     "category": "King"
@@ -121,8 +121,8 @@
     "roomCleaning": true,
     "images": [
       {
-        "public_id": "bookit/rooms/8_crn0xy",
-        "url": "https://res.cloudinary.com/bookit/image/upload/v1618590765/bookit/rooms/8_crn0xy.jpg"
+        "public_id": "bookit/rooms/ralph-ravi-kayden-FqqiAvJejto-unsplash_jpjuhi",
+        "url": "https://res.cloudinary.com/dvxt8pfbu/image/upload/v1666867351/bookit/rooms/ralph-ravi-kayden-FqqiAvJejto-unsplash_jpjuhi.jpg"
       }
     ],
     "category": "Twins"
@@ -141,8 +141,8 @@
     "roomCleaning": false,
     "images": [
       {
-        "public_id": "bookit/rooms/9_konrjf",
-        "url": "https://res.cloudinary.com/bookit/image/upload/v1618590849/bookit/rooms/9_konrjf.jpg"
+        "public_id": "bookit/rooms/naomi-hebert-2dcYhvbHV-M-unsplash_a3l5du",
+        "url": "https://res.cloudinary.com/dvxt8pfbu/image/upload/v1666867352/bookit/rooms/naomi-hebert-2dcYhvbHV-M-unsplash_a3l5du.jpg"
       }
     ],
     "category": "Single"
@@ -161,8 +161,8 @@
     "roomCleaning": true,
     "images": [
       {
-        "public_id": "bookit/rooms/10_w8w8yi",
-        "url": "https://res.cloudinary.com/bookit/image/upload/v1618590840/bookit/rooms/10_w8w8yi.jpg"
+        "public_id": "bookit/rooms/kenny-eliason-Wp7t4cWN-68-unsplash_qcsabe",
+        "url": "https://res.cloudinary.com/dvxt8pfbu/image/upload/v1666867353/bookit/rooms/kenny-eliason-Wp7t4cWN-68-unsplash_qcsabe.jpg"
       }
     ],
     "category": "Single"

@@ -30,7 +30,7 @@ export const newRoom: RouteHandler = catchAsync(async (req, res) => {
 
 export const deleteAll: RouteHandler = catchAsync(async (req, res) => {
   await Room.deleteMany({});
-  res.status(204).json({ success: true, rooms: null });
+  res.status(200).json({ success: true, rooms: null });
 });
 
 // ROUTE HANDLERS WITH "ID"

@@ -48,7 +48,7 @@ export const signup = catchAsync(async (req, res) => {
 
 // requireAuth middleware runs before this
 export const getCurrentUser = catchAsync(async (req, res) => {
-  const user = await User.findOne({ email: req.user.email });
+  const user = await User.findById(req.user._id);
   res.status(200).json({ success: true, user });
 });
 

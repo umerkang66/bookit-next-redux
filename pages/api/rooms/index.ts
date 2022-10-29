@@ -5,7 +5,7 @@ import {
   newRoom,
 } from '../../../controllers/room-controllers';
 import { dbConnect } from '../../../utils/db-connect';
-import { errorHandler } from '../../../middlewares/error-handler';
+import { errorHandler } from '../../../middlewares';
 
 const handler = nc({ onError: errorHandler });
 
