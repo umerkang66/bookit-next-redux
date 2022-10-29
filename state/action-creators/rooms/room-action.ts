@@ -1,8 +1,8 @@
 import { Dispatch } from 'redux';
 import absoluteUrl from 'next-absolute-url';
 import axios from 'axios';
-import { GetRoomActionType } from '../action-types';
-import { Action } from '../action';
+import { GetRoomActionType } from '../../action-types';
+import { Action } from '../../action';
 
 export const getRoom = (req: any, id: string) => {
   return async (dispatch: Dispatch<Action>) => {

@@ -1,5 +1,5 @@
-import { Action } from '../action';
-import { ResetPasswordActionTypes } from '../action-types';
+import { Action } from '../../action';
+import { ResetPasswordActionTypes } from '../../action-types';
 
 interface ResetPasswordState {
   loading: boolean;

@@ -1,6 +1,6 @@
-import { Room } from '../../common-types/room';
-import { Action } from '../action';
-import { AllRoomsActionType } from '../action-types';
+import { Room } from '../../../common-types/room';
+import { Action } from '../../action';
+import { AllRoomsActionType } from '../../action-types';
 
 interface AllRoomsState {
   error: string | null;

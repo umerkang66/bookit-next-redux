@@ -1,5 +1,5 @@
-import { Action } from '../action';
-import { SignupActionTypes } from '../action-types';
+import { Action } from '../../action';
+import { SignupActionTypes } from '../../action-types';
 
 interface SignupState {
   loading: boolean;

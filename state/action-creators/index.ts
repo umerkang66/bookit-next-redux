@@ -7,3 +7,4 @@ export * from './users/forgot-password-action';
 export * from './users/reset-password-action';
 export * from './bookings/check-room-availability-action';
 export * from './bookings/booked-dates-action';
+export * from './bookings/get-my-bookings-action';

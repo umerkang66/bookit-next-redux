@@ -1,5 +1,5 @@
 import nc from 'next-connect';
-import { newBooking } from '../../../controllers/booking-controllers';
+import { getBookingsOfUser } from '../../../controllers/booking-controllers';
 import { dbConnect } from '../../../utils/db-connect';
 import { requireAuth, errorHandler } from '../../../middlewares';
 
@@ -12,6 +12,6 @@ handler.use(async (req, res, next) => {
 });
 
 // routes without id
-handler.use(requireAuth).post(newBooking);
+handler.use(requireAuth).get(getBookingsOfUser);
 
 export default handler;

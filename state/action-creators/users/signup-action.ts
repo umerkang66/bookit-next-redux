@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { Dispatch } from 'redux';
-import { UserAttrs } from '../../common-types';
-import { Action } from '../action';
-import { SignupActionTypes } from '../action-types';
+import { UserAttrs } from '../../../common-types';
+import { Action } from '../../action';
+import { SignupActionTypes } from '../../action-types';
 
 export const registerUser = (userData: UserAttrs) => {
   return async (dispatch: Dispatch<Action>) => {

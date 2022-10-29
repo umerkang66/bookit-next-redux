@@ -1,5 +1,5 @@
-import { Action } from '../action';
-import { CheckRoomAvailabilityActionTypes } from '../action-types';
+import { Action } from '../../action';
+import { CheckRoomAvailabilityActionTypes } from '../../action-types';
 
 interface CheckRoomAvailabilityState {
   loading: boolean;

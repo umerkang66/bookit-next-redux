@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Dispatch } from 'redux';
-import { Action } from '../action';
-import { BookedDatesActionTypes } from '../action-types';
+import { Action } from '../../action';
+import { BookedDatesActionTypes } from '../../action-types';
 
 interface BookedDateReqBody {
   roomId: string;

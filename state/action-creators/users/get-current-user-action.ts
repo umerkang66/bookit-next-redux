@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Dispatch } from 'redux';
-import { Action } from '../action';
-import { CurrentUserActionTypes } from '../action-types';
+import { Action } from '../../action';
+import { CurrentUserActionTypes } from '../../action-types';
 import { NextPageContext } from 'next';
 import absoluteUrl from 'next-absolute-url';
 

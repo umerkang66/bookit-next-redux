@@ -8,6 +8,7 @@ import { forgotPasswordReducer } from './users/forgot-password-reducer';
 import { resetPasswordReducer } from './users/reset-password-reducer';
 import { signupReducer } from './users/signup-reducer';
 import { updateUserReducer } from './users/update-user-reducer';
+import { myBookingsReducer } from './bookings/my-bookings-reducer';
 
 export const combinedReducer = combineReducers({
   allRooms: allRoomsReducer,
@@ -19,6 +20,7 @@ export const combinedReducer = combineReducers({
   resetPassword: resetPasswordReducer,
   checkRoomAvailability: checkRoomAvailabilityReducer,
   bookedDates: bookedDatesReducer,
+  myBookings: myBookingsReducer,
 });
 
 export type RootState = ReturnType<typeof combinedReducer>;

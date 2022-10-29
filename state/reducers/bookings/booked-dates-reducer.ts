@@ -1,5 +1,5 @@
-import { Action } from '../action';
-import { BookedDatesActionTypes } from '../action-types';
+import { Action } from '../../action';
+import { BookedDatesActionTypes } from '../../action-types';
 
 interface BookedDatesState {
   loading: boolean;

@@ -7,3 +7,4 @@ export * from './users/forgot-password-action-types';
 export * from './users/reset-password-action-types';
 export * from './bookings/check-room-availability-action-types';
 export * from './bookings/booked-dates-action-types';
+export * from './bookings/get-my-bookings-action-types';

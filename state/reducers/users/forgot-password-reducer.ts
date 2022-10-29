@@ -1,5 +1,5 @@
-import { Action } from '../action';
-import { ForgotPasswordActionTypes } from '../action-types';
+import { Action } from '../../action';
+import { ForgotPasswordActionTypes } from '../../action-types';
 
 interface ForgotPasswordState {
   loading: boolean;

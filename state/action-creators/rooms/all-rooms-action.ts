@@ -1,8 +1,8 @@
 import { Dispatch } from 'redux';
 import absoluteUrl from 'next-absolute-url';
 import axios from 'axios';
-import { AllRoomsActionType } from '../action-types';
-import { Action } from '../action';
+import { AllRoomsActionType } from '../../action-types';
+import { Action } from '../../action';
 
 // this search is actually search by location
 export const getAllRooms = (

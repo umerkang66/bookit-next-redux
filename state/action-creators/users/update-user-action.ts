@@ -1,9 +1,9 @@
 import { Dispatch } from 'redux';
 import axios from 'axios';
 
-import { UserAttrs } from '../../common-types';
-import { Action } from '../action';
-import { UpdateUserActionTypes } from '../action-types';
+import { UserAttrs } from '../../../common-types';
+import { Action } from '../../action';
+import { UpdateUserActionTypes } from '../../action-types';
 
 export const updateUserAction = (userData: Partial<UserAttrs>) => {
   return async (dispatch: Dispatch<Action>) => {

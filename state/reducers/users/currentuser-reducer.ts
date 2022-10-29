@@ -1,6 +1,6 @@
-import { User } from '../../common-types';
-import { Action } from '../action';
-import { CurrentUserActionTypes } from '../action-types';
+import { User } from '../../../common-types';
+import { Action } from '../../action';
+import { CurrentUserActionTypes } from '../../action-types';
 
 interface CurrentuserState {
   loading: boolean;

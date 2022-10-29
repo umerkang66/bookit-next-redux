@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Dispatch } from 'redux';
-import { Action } from '../action';
-import { ForgotPasswordActionTypes } from '../action-types';
+import { Action } from '../../action';
+import { ForgotPasswordActionTypes } from '../../action-types';
 
 export const forgotPassword = (email: string) => {
   return async (dispatch: Dispatch<Action>) => {

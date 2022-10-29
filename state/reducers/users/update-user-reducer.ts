@@ -1,5 +1,5 @@
-import { Action } from '../action';
-import { UpdateUserActionTypes } from '../action-types';
+import { Action } from '../../action';
+import { UpdateUserActionTypes } from '../../action-types';
 
 interface UpdateUserState {
   loading: boolean;

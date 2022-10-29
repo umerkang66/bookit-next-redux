@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Dispatch } from 'redux';
-import { Action } from '../action';
-import { ResetPasswordActionTypes } from '../action-types';
+import { Action } from '../../action';
+import { ResetPasswordActionTypes } from '../../action-types';
 
 export const resetPassword = (
   token: string,
