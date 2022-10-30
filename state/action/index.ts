@@ -1,10 +1,12 @@
 import { User, Room } from '../../common-types';
-import { Booking } from '../../common-types/booking';
+import { BookingPopulated } from '../../common-types/booking';
 import {
   AllRoomsActionType,
   BookedDatesActionTypes,
+  CheckBookingResetActionTypes,
   CheckRoomAvailabilityActionTypes,
   CurrentUserActionTypes,
+  GetBookingActionTypes,
   GetMyBookingsActionTypes,
   GetRoomActionType,
   ResetPasswordActionTypes,
@@ -137,12 +139,27 @@ interface GetMyBookingsStartAction {
 interface GetMyBookingsSuccessAction {
   type: GetMyBookingsActionTypes.GET_MY_BOOKINGS_SUCCESS;
   // range of dates
-  payload: Booking[];
+  payload: BookingPopulated[];
 }
 interface GetMyBookingsErrorAction {
   type: GetMyBookingsActionTypes.GET_MY_BOOKINGS_ERROR;
   // this should be error message
   payload: string;
+}
+
+interface GetBookingSuccessAction {
+  type: GetBookingActionTypes.GET_BOOKING_SUCCESS;
+  // range of dates
+  payload: BookingPopulated;
+}
+interface GetBookingErrorAction {
+  type: GetBookingActionTypes.GET_BOOKING_ERROR;
+  // this should be error message
+  payload: string;
+}
+
+interface CheckBookingResetAction {
+  type: CheckBookingResetActionTypes.CHECK_BOOKING_RESET;
 }
 
 export type Action =
@@ -174,4 +191,7 @@ export type Action =
   | BookedDatesErrorAction
   | GetMyBookingsStartAction
   | GetMyBookingsSuccessAction
-  | GetMyBookingsErrorAction;
+  | GetMyBookingsErrorAction
+  | GetBookingSuccessAction
+  | GetBookingErrorAction
+  | CheckBookingResetAction;

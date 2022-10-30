@@ -8,3 +8,5 @@ export * from './users/reset-password-action-types';
 export * from './bookings/check-room-availability-action-types';
 export * from './bookings/booked-dates-action-types';
 export * from './bookings/get-my-bookings-action-types';
+export * from './bookings/get-booking-action.types';
+export * from './bookings/check-booking-reset-action-types';

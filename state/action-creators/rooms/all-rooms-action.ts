@@ -3,10 +3,11 @@ import absoluteUrl from 'next-absolute-url';
 import axios from 'axios';
 import { AllRoomsActionType } from '../../action-types';
 import { Action } from '../../action';
+import { NextPageContext } from 'next';
 
 // this search is actually search by location
 export const getAllRooms = (
-  req: any,
+  req: NextPageContext['req'],
   page: number,
   search: string,
   guestCapacity: string,

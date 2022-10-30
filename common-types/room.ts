@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import { User } from './user';
 
-interface RoomImage {
+export interface RoomImage {
   public_id: string;
   url: string;
 }

@@ -1,11 +1,11 @@
-import { Booking } from '../../../common-types/booking';
+import { BookingPopulated } from '../../../common-types/booking';
 import { Action } from '../../action';
 import { GetMyBookingsActionTypes } from '../../action-types';
 
 interface MyBookingsState {
   loading: boolean;
   error: string | null;
-  bookings: Booking[];
+  bookings: BookingPopulated[];
 }
 
 const initialState: MyBookingsState = {

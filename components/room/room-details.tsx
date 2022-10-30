@@ -10,11 +10,14 @@ import { Carousel } from 'react-bootstrap';
 import RoomFeatures from './room-features';
 import axios from 'axios';
 import { useActions } from '../../hooks/use-actions';
+import { getStripe } from '../../utils/get-stripe';
 
 const RoomDetails: FC = () => {
   const [checkInDate, setCheckInDate] = useState<Date>();
   const [checkOutDate, setCheckOutDate] = useState<Date>();
   const [daysOfStay, setDaysOfStay] = useState(1);
+  const [paymentLoading, setPaymentLoading] = useState(false);
+
   const actions = useActions();
 
   const roomState = useTypedSelector(state => state.room);
@@ -68,38 +71,33 @@ const RoomDetails: FC = () => {
     }
   };
 
-  const newBookingHandler = async () => {
-    if (room && user) {
-      const bookingData = {
-        room: room._id,
-        user: user._id,
-        checkInDate,
-        checkOutDate,
-        amountPaid: 90,
-        paymentInfo: {
-          id: 'STRIPE_PAYMENT_ID',
-          status: 'STRIPE_PAYMENT_STATUS',
-        },
-        paidAt: Date.now(),
-        daysOfStay,
-      };
+  const bookRoom = async (id: string, price: number) => {
+    setPaymentLoading(true);
+    const amount = price * daysOfStay;
 
-      try {
-        const { data } = await axios.post('/api/bookings', bookingData);
-        console.log(data);
-      } catch (err: any) {
-        toast.error('🚀🚀', err.response.data.message);
-      }
-    } else {
-      // user is not logged in
-      toast.error('Please login to perform this action');
+    try {
+      const link = `/api/checkout-session/${room?._id}?checkInDate=${checkInDate}&checkOutDate=${checkOutDate}&daysOfStay=${daysOfStay}&amount=${amount}`;
+
+      const { data } = await axios.get(link);
+      const stripe = await getStripe();
+
+      // redirect to checkout
+      stripe?.redirectToCheckout({ sessionId: data.session.id });
+      setPaymentLoading(false);
+    } catch (err: any) {
+      setPaymentLoading(false);
+      console.log(err);
+      toast.error(err.message);
     }
   };
 
   useEffect(() => {
     if (room) actions.bookedDatesAction({ roomId: room._id });
-
     if (roomError) toast.error(roomError);
+
+    return () => {
+      actions.checkBookingReset();
+    };
   }, [room, roomError, toast]);
 
   if (roomError) {
@@ -203,10 +201,13 @@ const RoomDetails: FC = () => {
 
                 {isAvailable && user && (
                   <button
-                    onClick={newBookingHandler}
+                    onClick={() => {
+                      bookRoom(room._id, room.price);
+                    }}
                     className="btn btn-block py-3 booking-btn"
+                    disabled={bookedDatesLoading || paymentLoading}
                   >
-                    Pay
+                    Pay - ${daysOfStay * room.price}
                   </button>
                 )}
               </div>

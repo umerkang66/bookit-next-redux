@@ -8,3 +8,5 @@ export * from './users/reset-password-action';
 export * from './bookings/check-room-availability-action';
 export * from './bookings/booked-dates-action';
 export * from './bookings/get-my-bookings-action';
+export * from './bookings/get-booking-action';
+export * from './bookings/check-booking-reset-action';

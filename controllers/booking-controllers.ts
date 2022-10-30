@@ -3,6 +3,7 @@ import User from '../models/user';
 import { catchAsync } from '../utils/catch-async';
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
+import { CustomError } from '../utils/custom-error';
 
 // @ts-ignore
 const moment = extendMoment(Moment);
@@ -85,10 +86,29 @@ export const getBookingsOfUser = catchAsync(async (req, res) => {
 
   const bookings = await Booking.find({
     user: user?.id,
-  });
+  }).populate([
+    { path: 'room', model: 'Room', select: 'name price images' },
+    { path: 'user', model: 'User', select: 'name email' },
+  ]);
 
   res.status(200).json({
     success: true,
     bookings,
+  });
+});
+
+export const getBookingDetails = catchAsync(async (req, res, next) => {
+  const booking = await Booking.findById(req.query.bookingId).populate([
+    { path: 'room', model: 'Room', select: 'name price images' },
+    { path: 'user', model: 'User', select: 'name email' },
+  ]);
+
+  if (!booking) {
+    return next(new CustomError('Booking with this id is not found', 400));
+  }
+
+  res.status(200).json({
+    success: true,
+    booking,
   });
 });

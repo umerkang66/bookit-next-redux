@@ -3,8 +3,9 @@ import absoluteUrl from 'next-absolute-url';
 import axios from 'axios';
 import { GetRoomActionType } from '../../action-types';
 import { Action } from '../../action';
+import { NextPageContext } from 'next';
 
-export const getRoom = (req: any, id: string) => {
+export const getRoom = (req: NextPageContext['req'], id: string) => {
   return async (dispatch: Dispatch<Action>) => {
     try {
       const { origin } = absoluteUrl(req);
