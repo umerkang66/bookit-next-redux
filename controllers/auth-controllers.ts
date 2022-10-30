@@ -52,6 +52,26 @@ export const getCurrentUser = catchAsync(async (req, res) => {
   res.status(200).json({ success: true, user });
 });
 
+// requireAuth middleware runs before this
+export const deleteMe = catchAsync(async (req, res, next) => {
+  const user = await User.findOne({ email: req.user.email });
+
+  if (!user) {
+    return next(new CustomError('User currently does not exist', 400));
+  }
+
+  const previousImageId = user.avatar.public_id;
+  const previousImageUrl = user.avatar.url;
+
+  // destroy the user's previous image, and replace that with user's new image
+  if (previousImageUrl !== DEFAULT_IMAGE_URL) {
+    await cloudinary.uploader.destroy(previousImageId);
+  }
+
+  await user.remove();
+  res.status(200).json({ success: true });
+});
+
 export const deleteAllUsers = catchAsync(async (req, res) => {
   await User.deleteMany({});
   res.status(200).json({ success: true, message: 'All users deleted' });

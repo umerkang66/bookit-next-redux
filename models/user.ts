@@ -4,6 +4,10 @@ import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import { UserDoc } from '../common-types/user';
 
+// other models
+import Booking from './booking';
+import Room from './room';
+
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -53,6 +57,11 @@ userSchema.pre('save', async function (next) {
   if (this.isModified('password')) {
     this.password = await bcrypt.hash(this.password, 10);
   }
+  next();
+});
+
+userSchema.post('remove', async function (doc, next) {
+  await Booking.deleteMany({ user: doc._id });
   next();
 });
 

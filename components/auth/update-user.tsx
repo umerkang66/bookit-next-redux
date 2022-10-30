@@ -8,11 +8,13 @@ import { useTypedSelector } from '../../hooks/use-typed-selector';
 import ButtonLoader from '../layout/button-loader';
 import { User } from '../../common-types';
 import Image from 'next/image';
+import axios from 'axios';
 
 const UpdateUser = () => {
   const actions = useActions();
   const router = useRouter();
   const [changeForSignout, setChangeForSignout] = useState(false);
+  const [deleteUserLoading, setDeleteUserLoading] = useState(false);
 
   // user cannot be null, because in the getServerSideProps, we are setting that if user is null, don't show this component
   const currentuser = useTypedSelector(state => state.currentuser).user as User;
@@ -83,6 +85,13 @@ const UpdateUser = () => {
     } else {
       setUser({ ...user, [e.target.name]: e.target.value });
     }
+  };
+
+  const deleteMe = async () => {
+    setDeleteUserLoading(true);
+    await axios.delete('/api/auth/delete-me');
+    setDeleteUserLoading(false);
+    await signOut();
   };
 
   return (
@@ -161,11 +170,19 @@ const UpdateUser = () => {
             <button
               id="login_button"
               type="submit"
-              className="btn btn-block py-3"
+              className="btn btn-block btn-primary py-3"
             >
               UPDATE {updateLoading && <ButtonLoader />}
             </button>
           </form>
+
+          <button
+            id="login_button"
+            className="btn btn-block btn-primary py-3"
+            onClick={deleteMe}
+          >
+            Delete Me {deleteUserLoading && <ButtonLoader />}
+          </button>
         </div>
       </div>
     </div>
