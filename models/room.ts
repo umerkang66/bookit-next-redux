@@ -88,7 +88,9 @@ const roomSchema = new mongoose.Schema({
 });
 
 roomSchema.pre('save', function (next) {
-  this.createdAt = new Date();
+  if (!this.createdAt) {
+    this.createdAt = new Date();
+  }
   next();
 });
 

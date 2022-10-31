@@ -7,7 +7,7 @@ export interface RoomImage {
 }
 
 interface RoomReview {
-  user: User;
+  user: string; // this will be just an id;
   name: string;
   rating: number;
   comment: string;

@@ -4,7 +4,9 @@ import {
   AllRoomsActionType,
   BookedDatesActionTypes,
   CheckBookingResetActionTypes,
+  CheckReviewAvailabilityActionTypes,
   CheckRoomAvailabilityActionTypes,
+  CreateReviewActionTypes,
   CurrentUserActionTypes,
   GetBookingActionTypes,
   GetMyBookingsActionTypes,
@@ -162,7 +164,40 @@ interface CheckBookingResetAction {
   type: CheckBookingResetActionTypes.CHECK_BOOKING_RESET;
 }
 
+interface CreateReviewStartAction {
+  type: CreateReviewActionTypes.CREATE_REVIEW_START;
+}
+interface CreateReviewSuccessAction {
+  type: CreateReviewActionTypes.CREATE_REVIEW_SUCCESS;
+  // this should be success message
+  payload: string;
+}
+interface CreateReviewErrorAction {
+  type: CreateReviewActionTypes.CREATE_REVIEW_ERROR;
+  // this should be error message
+  payload: string;
+}
+
+interface CheckReviewAvailabilityStartAction {
+  type: CheckReviewAvailabilityActionTypes.CHECK_REVIEW_AVAILABILITY_START;
+}
+interface CheckReviewAvailabilitySuccessAction {
+  type: CheckReviewAvailabilityActionTypes.CHECK_REVIEW_AVAILABILITY_SUCCESS;
+  payload: boolean;
+}
+interface CheckReviewAvailabilityErrorAction {
+  type: CheckReviewAvailabilityActionTypes.CHECK_REVIEW_AVAILABILITY_ERROR;
+  // this should be error message
+  payload: string;
+}
+
 export type Action =
+  | CheckReviewAvailabilityStartAction
+  | CheckReviewAvailabilitySuccessAction
+  | CheckReviewAvailabilityErrorAction
+  | CreateReviewStartAction
+  | CreateReviewSuccessAction
+  | CreateReviewErrorAction
   | AllRoomsSuccessAction
   | AllRoomsErrorAction
   | GetRoomSuccessAction

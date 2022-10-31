@@ -3,7 +3,7 @@ import { useTypedSelector } from '../../hooks/use-typed-selector';
 import { toast } from 'react-toastify';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-
+import CreateReview from '../review/create-review';
 import Head from 'next/head';
 import Image from 'next/image';
 import { Carousel } from 'react-bootstrap';
@@ -11,6 +11,7 @@ import RoomFeatures from './room-features';
 import axios from 'axios';
 import { useActions } from '../../hooks/use-actions';
 import { getStripe } from '../../utils/get-stripe';
+import ListReviews from '../review/list-reviews';
 
 const RoomDetails: FC = () => {
   const [checkInDate, setCheckInDate] = useState<Date>();
@@ -214,29 +215,18 @@ const RoomDetails: FC = () => {
             </div>
           </div>
 
-          <div className="reviews w-75">
-            <h3>Reviews:</h3>
-            <hr />
-            <div className="review-card my-3">
-              <div className="rating-outer">
-                <div className="rating-inner"></div>
-              </div>
-              <p className="review_user">by John</p>
-              <p className="review_comment">Good Quality</p>
+          <CreateReview />
 
-              <hr />
-            </div>
+          {room.reviews && room.reviews.length > 0 && (
+            <ListReviews reviews={room.reviews} />
+          )}
 
-            <div className="review-card my-3">
-              <div className="rating-outer">
-                <div className="rating-inner"></div>
-              </div>
-              <p className="review_user">by John</p>
-              <p className="review_comment">Good Quality</p>
-
-              <hr />
-            </div>
-          </div>
+          {!room.reviews ||
+            (!room.reviews.length && (
+              <p>
+                <b>No Reviews on this room</b>
+              </p>
+            ))}
         </div>
       )}
     </div>

@@ -49,7 +49,7 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.pre('save', function (next) {
-  this.createdAt = new Date();
+  if (!this.createdAt) this.createdAt = new Date();
   next();
 });
 
@@ -62,6 +62,20 @@ userSchema.pre('save', async function (next) {
 
 userSchema.post('remove', async function (doc, next) {
   await Booking.deleteMany({ user: doc._id });
+  const rooms = await Room.find({
+    reviews: { $elemMatch: { user: doc._id.toString() } },
+  });
+
+  const promises = rooms.map(room => {
+    const filteredReviews = room.reviews.filter(review => {
+      return review.user.toString() !== doc._id.toString();
+    });
+    room.reviews = filteredReviews;
+    return room.save();
+  });
+
+  await Promise.all(promises);
+
   next();
 });
 

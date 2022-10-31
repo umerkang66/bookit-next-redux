@@ -10,6 +10,8 @@ import { signupReducer } from './users/signup-reducer';
 import { updateUserReducer } from './users/update-user-reducer';
 import { myBookingsReducer } from './bookings/my-bookings-reducer';
 import { bookingReducer } from './bookings/booking-reducer';
+import { createReviewReducer } from './reviews/create-review-reducer';
+import { checkReviewAvailabilityReducer } from './reviews/check-review-availability-reducer';
 
 export const combinedReducer = combineReducers({
   allRooms: allRoomsReducer,
@@ -23,6 +25,8 @@ export const combinedReducer = combineReducers({
   bookedDates: bookedDatesReducer,
   myBookings: myBookingsReducer,
   booking: bookingReducer,
+  createReview: createReviewReducer,
+  checkReviewAvailability: checkReviewAvailabilityReducer,
 });
 
 export type RootState = ReturnType<typeof combinedReducer>;

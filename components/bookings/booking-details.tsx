@@ -89,7 +89,7 @@ const BookingDetails = () => {
                   </div>
 
                   <div className="col-5 col-lg-5">
-                    <Link href={`/room/${booking.room._id}`}>
+                    <Link href={`/rooms/${booking.room._id}`}>
                       {booking.room.name}
                     </Link>
                   </div>
