@@ -24,7 +24,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
     const action = actionCreators.getBooking(
       context.req,
-      context.params?.bookingId
+      context.params?.bookingId as string
     );
     await store.dispatch(action as unknown as DefaultAction);
 
