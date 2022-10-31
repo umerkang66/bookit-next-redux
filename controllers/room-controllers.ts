@@ -138,3 +138,9 @@ export const checkReviewAvailability = catchAsync(async (req, res, next) => {
 
   res.status(200).json({ success: true, isReviewAvailable });
 });
+
+// ADMIN ROUTES
+export const getAdminAllRooms = catchAsync(async (req, res, next) => {
+  const rooms = await Room.find();
+  res.status(200).json({ success: true, rooms, totalRooms: rooms.length });
+});

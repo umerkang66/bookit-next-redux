@@ -12,3 +12,4 @@ export * from './bookings/get-booking-action.types';
 export * from './bookings/check-booking-reset-action-types';
 export * from './reviews/create-review-action-types';
 export * from './reviews/check-review-availability-action-types';
+export * from './admin/all-admin-rooms-action-types';

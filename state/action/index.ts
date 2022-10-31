@@ -1,6 +1,7 @@
 import { User, Room } from '../../common-types';
 import { BookingPopulated } from '../../common-types/booking';
 import {
+  AllAdminRoomsActionTypes,
   AllRoomsActionType,
   BookedDatesActionTypes,
   CheckBookingResetActionTypes,
@@ -191,7 +192,19 @@ interface CheckReviewAvailabilityErrorAction {
   payload: string;
 }
 
+interface AllAdminRoomsSuccessAction {
+  type: AllAdminRoomsActionTypes.All_ADMIN_ROOMS_SUCCESS;
+  payload: { rooms: Room[]; totalRooms: number };
+}
+interface AllAdminRoomsErrorAction {
+  type: AllAdminRoomsActionTypes.All_ADMIN_ROOMS_ERROR;
+  // this should be error message
+  payload: string;
+}
+
 export type Action =
+  | AllAdminRoomsSuccessAction
+  | AllAdminRoomsErrorAction
   | CheckReviewAvailabilityStartAction
   | CheckReviewAvailabilitySuccessAction
   | CheckReviewAvailabilityErrorAction

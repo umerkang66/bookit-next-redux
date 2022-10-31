@@ -12,3 +12,4 @@ export * from './bookings/get-booking-action';
 export * from './bookings/check-booking-reset-action';
 export * from './reviews/create-review-action';
 export * from './reviews/check-review-availability-action';
+export * from './admin/all-admin-rooms-action';

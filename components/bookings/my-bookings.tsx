@@ -122,6 +122,7 @@ const MyBookings = () => {
         bordered
         striped
         hover
+        noBottomColumns
       />
     </div>
   );

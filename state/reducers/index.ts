@@ -12,6 +12,7 @@ import { myBookingsReducer } from './bookings/my-bookings-reducer';
 import { bookingReducer } from './bookings/booking-reducer';
 import { createReviewReducer } from './reviews/create-review-reducer';
 import { checkReviewAvailabilityReducer } from './reviews/check-review-availability-reducer';
+import { allAdminRoomsReducer } from './admin/all-admin-rooms-reducer';
 
 export const combinedReducer = combineReducers({
   allRooms: allRoomsReducer,
@@ -27,6 +28,7 @@ export const combinedReducer = combineReducers({
   booking: bookingReducer,
   createReview: createReviewReducer,
   checkReviewAvailability: checkReviewAvailabilityReducer,
+  allAdminRooms: allAdminRoomsReducer,
 });
 
 export type RootState = ReturnType<typeof combinedReducer>;
