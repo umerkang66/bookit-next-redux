@@ -6,6 +6,16 @@ import { ApiFeatures } from '../utils/api-features';
 import User from '../models/user';
 import Booking from '../models/booking';
 
+import cd from 'cloudinary';
+
+// Setting up cloudinary config
+const cloudinary = cd.v2;
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_CLOUD_API_KEY,
+  api_secret: process.env.CLOUDINARY_CLOUD_API_SECRET,
+});
+
 // ROUTES HANDLERS WITHOUT "ID"
 export const allRooms: RouteHandler = catchAsync(async (req, res) => {
   const apiFeatures = new ApiFeatures(Room.find({}), req.query)
@@ -25,7 +35,25 @@ export const allRooms: RouteHandler = catchAsync(async (req, res) => {
   });
 });
 
+// requireAuth runs before this
 export const newRoom: RouteHandler = catchAsync(async (req, res) => {
+  const images = req.body.images;
+
+  const promises = images.map((image: string) => {
+    return cloudinary.uploader.upload(image, {
+      folder: 'bookit/rooms',
+    });
+  });
+
+  const imagesMetaData = (await Promise.all(promises)).map(result => ({
+    public_id: result.public_id,
+    url: result.secure_url,
+  }));
+  req.body.images = imagesMetaData;
+
+  const user = await User.findOne({ email: req.user.email });
+  req.body.user = user?._id;
+
   const room = await Room.create(req.body);
   res.status(200).json({ success: true, room });
 });
@@ -55,6 +83,26 @@ export const updateRoom: RouteHandler = catchAsync(async (req, res, next) => {
     return next(new CustomError('Room not found with this id', 400));
   }
 
+  if (req.body.images) {
+    // delete the previous images
+    const deletePromises = room.images.map(image => {
+      return cloudinary.uploader.destroy(image.public_id);
+    });
+    await Promise.all(deletePromises);
+
+    const uploadPromises = req.body.images.map((image: string) => {
+      return cloudinary.uploader.upload(image, {
+        folder: 'bookit/rooms',
+      });
+    });
+
+    const imagesMetaData = (await Promise.all(uploadPromises)).map(result => ({
+      public_id: result.public_id,
+      url: result.secure_url,
+    }));
+    req.body.images = imagesMetaData;
+  }
+
   const updatedRoom = await Room.findByIdAndUpdate(req.query.id, req.body, {
     new: true,
     runValidators: true,
@@ -68,6 +116,11 @@ export const deleteRoom: RouteHandler = catchAsync(async (req, res, next) => {
     // This will be caught by the global error handler
     return next(new CustomError('Room not found with this id', 400));
   }
+
+  const deletePromises = room.images.map(image => {
+    return cloudinary.uploader.destroy(image.public_id);
+  });
+  await Promise.all(deletePromises);
 
   await room.remove();
   res.status(200).json({ success: true, room: null });

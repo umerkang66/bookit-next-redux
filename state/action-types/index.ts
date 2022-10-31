@@ -13,3 +13,6 @@ export * from './bookings/check-booking-reset-action-types';
 export * from './reviews/create-review-action-types';
 export * from './reviews/check-review-availability-action-types';
 export * from './admin/all-admin-rooms-action-types';
+export * from './admin/admin-new-room-action-types';
+export * from './admin/admin-update-room-action-types';
+export * from './admin/delete-room-action-types';

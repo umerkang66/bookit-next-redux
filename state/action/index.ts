@@ -1,6 +1,9 @@
 import { User, Room } from '../../common-types';
 import { BookingPopulated } from '../../common-types/booking';
 import {
+  AdminDeleteRoomActionTypes,
+  AdminNewRoomActionTypes,
+  AdminUpdateRoomActionTypes,
   AllAdminRoomsActionTypes,
   AllRoomsActionType,
   BookedDatesActionTypes,
@@ -202,7 +205,55 @@ interface AllAdminRoomsErrorAction {
   payload: string;
 }
 
+interface AdminNewRoomStartAction {
+  type: AdminNewRoomActionTypes.ADMIN_NEW_ROOM_START;
+}
+interface AdminNewRoomSuccessAction {
+  type: AdminNewRoomActionTypes.ADMIN_NEW_ROOM_SUCCESS;
+  payload: Room;
+}
+interface AdminNewRoomErrorAction {
+  type: AdminNewRoomActionTypes.ADMIN_NEW_ROOM_ERROR;
+  // this should be error message
+  payload: string;
+}
+
+interface AdminUpdateRoomStartAction {
+  type: AdminUpdateRoomActionTypes.ADMIN_UPDATE_ROOM_START;
+}
+interface AdminUpdateRoomSuccessAction {
+  type: AdminUpdateRoomActionTypes.ADMIN_UPDATE_ROOM_SUCCESS;
+  payload: Room;
+}
+interface AdminUpdateRoomErrorAction {
+  type: AdminUpdateRoomActionTypes.ADMIN_UPDATE_ROOM_ERROR;
+  // this should be error message
+  payload: string;
+}
+
+interface AdminDeleteRoomStartAction {
+  type: AdminDeleteRoomActionTypes.ADMIN_DELETE_ROOM_START;
+}
+interface AdminDeleteRoomSuccessAction {
+  type: AdminDeleteRoomActionTypes.ADMIN_DELETE_ROOM_SUCCESS;
+  payload: null;
+}
+interface AdminDeleteRoomErrorAction {
+  type: AdminDeleteRoomActionTypes.ADMIN_DELETE_ROOM_ERROR;
+  // this should be error message
+  payload: string;
+}
+
 export type Action =
+  | AdminDeleteRoomStartAction
+  | AdminDeleteRoomSuccessAction
+  | AdminDeleteRoomErrorAction
+  | AdminUpdateRoomStartAction
+  | AdminUpdateRoomSuccessAction
+  | AdminUpdateRoomErrorAction
+  | AdminNewRoomStartAction
+  | AdminNewRoomSuccessAction
+  | AdminNewRoomErrorAction
   | AllAdminRoomsSuccessAction
   | AllAdminRoomsErrorAction
   | CheckReviewAvailabilityStartAction

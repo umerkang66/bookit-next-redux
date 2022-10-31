@@ -16,7 +16,5 @@ handler.use(async (req, res, next) => {
 
 // routes with id
 handler.get(getRoom);
-handler.patch(updateRoom);
-handler.delete(deleteRoom);
 
 export default handler;

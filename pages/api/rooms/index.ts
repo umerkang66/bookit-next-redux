@@ -1,11 +1,7 @@
 import nc from 'next-connect';
-import {
-  allRooms,
-  deleteAll,
-  newRoom,
-} from '../../../controllers/room-controllers';
+import { allRooms, deleteAll } from '../../../controllers/room-controllers';
 import { dbConnect } from '../../../utils/db-connect';
-import { errorHandler } from '../../../middlewares';
+import { errorHandler, requireAuth } from '../../../middlewares';
 
 const handler = nc({ onError: errorHandler });
 
@@ -17,7 +13,6 @@ handler.use(async (req, res, next) => {
 
 // routes without id
 handler.get(allRooms);
-handler.post(newRoom);
 handler.delete(deleteAll);
 
 export default handler;

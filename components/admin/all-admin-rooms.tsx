@@ -1,7 +1,9 @@
 import { MDBDataTable } from 'mdbreact';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
+import { useActions } from '../../hooks/use-actions';
 import { useTypedSelector } from '../../hooks/use-typed-selector';
 
 interface Data {
@@ -17,12 +19,29 @@ interface Data {
 
 const AllAdminRooms = () => {
   const allAdminRoomsState = useTypedSelector(state => state.allAdminRooms);
+  const adminDeleteRoomsState = useTypedSelector(
+    state => state.adminDeleteRoom
+  );
+
+  const actions = useActions();
+  const router = useRouter();
 
   const { error, rooms, totalRooms } = allAdminRoomsState;
+  const {
+    error: deleteError,
+    loading: deleteLoading,
+    successMessage: deleteSuccessMessage,
+  } = adminDeleteRoomsState;
 
   useEffect(() => {
     if (error) toast.error(error);
-  }, [error]);
+    if (deleteError) toast.error(deleteError);
+    if (deleteSuccessMessage) router.push('/admin/rooms');
+  }, [error, deleteError, deleteSuccessMessage]);
+
+  const deleteRoomHandler = (id: string) => {
+    actions.adminDeleteRoomAction(id);
+  };
 
   const setRooms = () => {
     const data: Data = {
@@ -51,7 +70,10 @@ const AllAdminRooms = () => {
                 </a>
               </Link>
 
-              <button className="btn btn-danger mx-2">
+              <button
+                onClick={() => deleteRoomHandler(room._id.toString())}
+                className="btn btn-danger mx-2"
+              >
                 <i className="fa fa-trash"></i>
               </button>
             </div>
@@ -64,7 +86,15 @@ const AllAdminRooms = () => {
 
   return (
     <div className="container container-fluid">
-      <h1 className="my-5">{`${rooms && rooms.length} Rooms`}</h1>
+      <h1 className="my-5">
+        {`${rooms && rooms.length} Rooms`}
+
+        <Link href="/admin/rooms/new-room">
+          <a className="mt-0 btn text-white float-right new-room-btn">
+            Create new Room
+          </a>
+        </Link>
+      </h1>
 
       <MDBDataTable
         data={setRooms()}
