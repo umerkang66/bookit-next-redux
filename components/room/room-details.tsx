@@ -12,6 +12,7 @@ import axios from 'axios';
 import { useActions } from '../../hooks/use-actions';
 import { getStripe } from '../../utils/get-stripe';
 import ListReviews from '../review/list-reviews';
+import ButtonLoader from '../layout/button-loader';
 
 const RoomDetails: FC = () => {
   const [checkInDate, setCheckInDate] = useState<Date>();
@@ -84,7 +85,8 @@ const RoomDetails: FC = () => {
 
       // redirect to checkout
       stripe?.redirectToCheckout({ sessionId: data.session.id });
-      setPaymentLoading(false);
+      // only set the payment loading to on error
+      // setPaymentLoading(false);
     } catch (err: any) {
       setPaymentLoading(false);
       console.log(err);
@@ -208,7 +210,11 @@ const RoomDetails: FC = () => {
                     className="btn btn-block py-3 booking-btn"
                     disabled={bookedDatesLoading || paymentLoading}
                   >
-                    Pay - ${daysOfStay * room.price}
+                    {paymentLoading ? (
+                      <ButtonLoader />
+                    ) : (
+                      `Pay - $${daysOfStay * room.price}`
+                    )}
                   </button>
                 )}
               </div>
