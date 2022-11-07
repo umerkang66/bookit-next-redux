@@ -65,7 +65,7 @@ export const webhookCheckout = catchAsync(async (req, res) => {
       const checkOutDate = session.metadata.checkOutDate;
       const daysOfStay = session.metadata.daysOfStay;
 
-      await Booking.create({
+      Booking.create({
         room,
         user,
         checkInDate,
@@ -88,3 +88,6 @@ export const webhookCheckout = catchAsync(async (req, res) => {
 });
 
 // stripe listen --events checkout.session.completed --forward-to localhost:3000/api/webhook
+
+// 2022-11-07T00:00:00.000Z,
+// 2022-11-10T00:00:00.000Z
