@@ -4,6 +4,7 @@ import { useTypedSelector } from '../../hooks/use-typed-selector';
 import { useActions } from '../../hooks/use-actions';
 import ButtonLoader from '../layout/button-loader';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 
 const NewRoom = () => {
   const [name, setName] = useState('');
@@ -29,6 +30,8 @@ const NewRoom = () => {
     state => state.adminNewRoom
   );
 
+  console.log('🚀🚀🚀 umer did this');
+
   useEffect(() => {
     if (error) {
       toast.error(error);
@@ -37,7 +40,7 @@ const NewRoom = () => {
     if (room) {
       router.push('/admin/rooms');
     }
-  }, [room, error]);
+  }, [room, error, router]);
 
   const submitHandler = (e: any) => {
     e.preventDefault();
@@ -279,13 +282,13 @@ const NewRoom = () => {
               </div>
 
               {imagesPreview.map(img => (
-                <img
+                <Image
                   src={img}
                   key={img}
                   alt="Images Preview"
                   className="mt-3 mr-2"
-                  width="55"
-                  height="52"
+                  width={60}
+                  height={65}
                 />
               ))}
             </div>

@@ -37,7 +37,7 @@ const AllAdminRooms = () => {
     if (error) toast.error(error);
     if (deleteError) toast.error(deleteError);
     if (deleteSuccessMessage) router.push('/admin/rooms');
-  }, [error, deleteError, deleteSuccessMessage]);
+  }, [error, deleteError, deleteSuccessMessage, router]);
 
   const deleteRoomHandler = (id: string) => {
     actions.adminDeleteRoomAction(id);

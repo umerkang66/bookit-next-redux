@@ -42,6 +42,10 @@ export const newBooking = catchAsync(async (req, res) => {
 export const checkRoomAvailability = catchAsync(async (req, res) => {
   const { roomId, checkInDate, checkOutDate } = req.body;
 
+  // if a booking exist, where its checkInDate is
+  // less than current checkOutDate AND if the
+  // checkOutDate is greater than checkInDate, then
+  // room is not available
   const bookings = await Booking.find({
     room: roomId,
     $and: [
@@ -50,14 +54,9 @@ export const checkRoomAvailability = catchAsync(async (req, res) => {
     ],
   });
 
-  let isAvailable: boolean;
-  // room is available
-  if (bookings && bookings.length === 0) isAvailable = true;
-  else isAvailable = false;
-
   res.status(200).json({
     success: true,
-    isAvailable,
+    isAvailable: bookings.length === 0,
   });
 });
 

@@ -42,12 +42,12 @@ const RoomDetails: FC = () => {
     bookedDates,
   } = bookedDatesState;
 
-  const excludedDates = bookedDates
-    .flatMap(date => date)
-    .map(date => new Date(date));
+  const excludedDates = bookedDates.flat().map(date => new Date(date));
 
   const dateOnChange = (date: [Date | null, Date | null]) => {
     const [checkInDate, checkOutDate] = date;
+
+    console.log(checkInDate, checkOutDate);
 
     setCheckInDate(checkInDate as Date);
     setCheckOutDate(checkOutDate as Date);
@@ -101,7 +101,7 @@ const RoomDetails: FC = () => {
     return () => {
       actions.checkBookingReset();
     };
-  }, [room, roomError, toast]);
+  }, [room, roomError, actions]);
 
   if (roomError) {
     return (
@@ -175,6 +175,7 @@ const RoomDetails: FC = () => {
                 <DatePicker
                   className="w-100"
                   minDate={new Date()}
+                  // first time selected date
                   selected={checkInDate}
                   onChange={dateOnChange}
                   startDate={checkInDate}
