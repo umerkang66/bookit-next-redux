@@ -19,7 +19,7 @@ import {
   SignupActionTypes,
   UpdateUserActionTypes,
 } from '../action-types';
-import { ForgotPasswordActionTypes } from '../action-types/users/forgot-password-action-types';
+import { ForgotPasswordActionTypes } from '../action-types';
 
 interface AllRoomsSuccessAction {
   type: AllRoomsActionType.All_ROOMS_SUCCESS;
