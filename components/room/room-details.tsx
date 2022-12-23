@@ -13,6 +13,7 @@ import { useActions } from '../../hooks/use-actions';
 import { getStripe } from '../../utils/get-stripe';
 import ListReviews from '../review/list-reviews';
 import ButtonLoader from '../layout/button-loader';
+import { useAsyncAction } from '../../hooks/use-async-action';
 
 const RoomDetails: FC = () => {
   const [checkInDate, setCheckInDate] = useState<Date>();
@@ -22,32 +23,28 @@ const RoomDetails: FC = () => {
 
   const actions = useActions();
 
+  const [checkRoomAvailability, roomAvailabilityLoading] = useAsyncAction(
+    actions.checkRoomAvailabilityAction
+  );
+
+  const [bookedDatesAction, bookedDatesLoading] = useAsyncAction(
+    actions.bookedDatesAction
+  );
+
   const roomState = useTypedSelector(state => state.room);
   const currentuserState = useTypedSelector(state => state.currentuser);
-  const roomAvailabilityState = useTypedSelector(
-    state => state.checkRoomAvailability
+  const { availability: roomAvailability } = useTypedSelector(
+    state => state.bookings.roomAvailability
   );
-  const bookedDatesState = useTypedSelector(state => state.bookedDates);
+  const { bookedDates } = useTypedSelector(state => state.bookings.bookedDates);
 
   const { error: roomError, room } = roomState;
   const { user } = currentuserState;
-  const {
-    error: availabilityError,
-    loading: availabilityLoading,
-    availability: isAvailable,
-  } = roomAvailabilityState;
-  const {
-    error: bookedDatesError,
-    loading: bookedDatesLoading,
-    bookedDates,
-  } = bookedDatesState;
 
   const excludedDates = bookedDates.flat().map(date => new Date(date));
 
   const dateOnChange = (date: [Date | null, Date | null]) => {
     const [checkInDate, checkOutDate] = date;
-
-    console.log(checkInDate, checkOutDate);
 
     setCheckInDate(checkInDate as Date);
     setCheckOutDate(checkOutDate as Date);
@@ -65,11 +62,7 @@ const RoomDetails: FC = () => {
       );
       setDaysOfStay(days);
 
-      actions.checkRoomAvailabilityAction({
-        roomId: room._id.toString(),
-        checkInDate,
-        checkOutDate,
-      });
+      checkRoomAvailability({ roomId: room._id, checkInDate, checkOutDate });
     }
   };
 
@@ -95,13 +88,9 @@ const RoomDetails: FC = () => {
   };
 
   useEffect(() => {
-    if (room) actions.bookedDatesAction({ roomId: room._id });
+    if (room) bookedDatesAction({ roomId: room._id });
     if (roomError) toast.error(roomError);
-
-    return () => {
-      actions.checkBookingReset();
-    };
-  }, [room, roomError, actions]);
+  }, [room, roomError, bookedDatesAction]);
 
   if (roomError) {
     return (
@@ -185,25 +174,25 @@ const RoomDetails: FC = () => {
                   inline
                 />
 
-                {isAvailable && (
+                {roomAvailability && !roomAvailabilityLoading && (
                   <div className="alert alert-success my-3 font-weight-bold">
                     Room is available. Book now!
                   </div>
                 )}
 
-                {isAvailable === false && (
+                {roomAvailability === false && (
                   <div className="alert alert-danger my-3 font-weight-bold">
                     Room is not available. Try different dates.
                   </div>
                 )}
 
-                {isAvailable && !user && (
+                {roomAvailability && !user && (
                   <div className="alert alert-danger my-3 font-weight-bold">
                     Login to book room.
                   </div>
                 )}
 
-                {isAvailable && user && (
+                {roomAvailability && user && (
                   <button
                     onClick={() => {
                       bookRoom(room._id, room.price);

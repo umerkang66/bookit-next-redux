@@ -1,7 +1,5 @@
 import { MDBDataTable } from 'mdbreact';
 import Link from 'next/link';
-import { useEffect } from 'react';
-import { toast } from 'react-toastify';
 import { useTypedSelector } from '../../hooks/use-typed-selector';
 import easyinvoice from 'easyinvoice';
 import { BookingPopulated } from '../../common-types/booking';
@@ -18,12 +16,7 @@ interface Data {
 }
 
 const MyBookings = () => {
-  const bookingsState = useTypedSelector(state => state.myBookings);
-  const { error: bookingsError, loading, bookings } = bookingsState;
-
-  useEffect(() => {
-    if (bookingsError) toast.error(bookingsError);
-  }, [bookingsError]);
+  const { bookings } = useTypedSelector(state => state.bookings.myBookings);
 
   const setBookings = () => {
     const data: Data = {

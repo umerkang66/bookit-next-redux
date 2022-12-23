@@ -32,7 +32,7 @@ const CreateReview = () => {
 
     if (successMessage) toast.success(successMessage);
     if (error) toast.error(error);
-  }, [successMessage, error, roomId]);
+  }, [successMessage, error, roomId, actions]);
 
   const submitHandler = () => {
     const reviewData = { rating, comment, roomId: roomId as string };

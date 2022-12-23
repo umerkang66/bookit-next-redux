@@ -17,9 +17,7 @@ const Home: FC = () => {
   const category = router.query.category;
 
   useEffect(() => {
-    if (error) {
-      toast.error(error);
-    }
+    if (error) toast.error(error);
   });
 
   const handlePagination = (pageNumber: number) => {

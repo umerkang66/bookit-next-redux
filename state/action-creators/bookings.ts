@@ -3,13 +3,7 @@ import absoluteUrl from 'next-absolute-url';
 import axios from 'axios';
 import { Dispatch } from 'redux';
 import { Action } from '../action';
-import {
-  BookedDatesActionTypes,
-  CheckBookingResetActionTypes,
-  CheckRoomAvailabilityActionTypes,
-  GetBookingActionTypes,
-  GetMyBookingsActionTypes,
-} from '../action-types';
+import { BookingsActionTypes } from '../action-types';
 
 interface BookedDateReqBody {
   roomId: string;
@@ -17,28 +11,17 @@ interface BookedDateReqBody {
 
 export const bookedDatesAction = (reqBody: BookedDateReqBody) => {
   return async (dispatch: Dispatch<Action>) => {
-    dispatch({
-      type: BookedDatesActionTypes.BOOKED_DATES_START,
-    });
-
     try {
       const { data } = await axios.post('/api/bookings/booked-dates', reqBody);
 
       dispatch({
-        type: BookedDatesActionTypes.BOOKED_DATES_SUCCESS,
+        type: BookingsActionTypes.BOOKED_DATES,
         payload: data.bookedDates,
       });
     } catch (err: any) {
-      dispatch({
-        type: BookedDatesActionTypes.BOOKED_DATES_ERROR,
-        payload: err.response.data.message || 'Something went wrong',
-      });
+      throw new Error(err.response.data.message || 'Something went wrong');
     }
   };
-};
-
-export const checkBookingReset = () => {
-  return { type: CheckBookingResetActionTypes.CHECK_BOOKING_RESET };
 };
 
 interface CheckRoomReqBody {
@@ -49,22 +32,15 @@ interface CheckRoomReqBody {
 
 export const checkRoomAvailabilityAction = (reqBody: CheckRoomReqBody) => {
   return async (dispatch: Dispatch<Action>) => {
-    dispatch({
-      type: CheckRoomAvailabilityActionTypes.CHECK_ROOM_AVAILABILITY_START,
-    });
-
     try {
       const { data } = await axios.post('/api/bookings/check', reqBody);
 
       dispatch({
-        type: CheckRoomAvailabilityActionTypes.CHECK_ROOM_AVAILABILITY_SUCCESS,
+        type: BookingsActionTypes.ROOM_AVAILABILITY,
         payload: data.isAvailable,
       });
     } catch (err: any) {
-      dispatch({
-        type: CheckRoomAvailabilityActionTypes.CHECK_ROOM_AVAILABILITY_ERROR,
-        payload: err.response.data.message || 'Something went wrong',
-      });
+      throw new Error(err.response.data.message || 'Something went wrong');
     }
   };
 };
@@ -78,22 +54,17 @@ export const getBooking = (req: NextPageContext['req'], bookingId: string) => {
       });
 
       dispatch({
-        type: GetBookingActionTypes.GET_BOOKING_SUCCESS,
+        type: BookingsActionTypes.GET_BOOKING,
         payload: data.booking,
       });
     } catch (err: any) {
-      dispatch({
-        type: GetBookingActionTypes.GET_BOOKING_ERROR,
-        payload: err.response.data.message || 'Something went wrong',
-      });
+      throw new Error(err.response.data.message || 'Something went wrong');
     }
   };
 };
 
 export const getMyBookings = (req: NextPageContext['req']) => {
   return async (dispatch: Dispatch<Action>) => {
-    dispatch({ type: GetMyBookingsActionTypes.GET_MY_BOOKINGS_START });
-
     try {
       const { origin } = absoluteUrl(req);
       const { data } = await axios.get(`${origin}/api/bookings/me`, {
@@ -101,14 +72,11 @@ export const getMyBookings = (req: NextPageContext['req']) => {
       });
 
       dispatch({
-        type: GetMyBookingsActionTypes.GET_MY_BOOKINGS_SUCCESS,
+        type: BookingsActionTypes.GET_MY_BOOKINGS,
         payload: data.bookings,
       });
     } catch (err: any) {
-      dispatch({
-        type: GetMyBookingsActionTypes.GET_MY_BOOKINGS_ERROR,
-        payload: err.response.data.message || 'Something went wrong',
-      });
+      throw new Error(err.response.data.message || 'Something went wrong');
     }
   };
 };

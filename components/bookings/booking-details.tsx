@@ -1,21 +1,14 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect } from 'react';
-import { toast } from 'react-toastify';
 import { useTypedSelector } from '../../hooks/use-typed-selector';
 
 const BookingDetails = () => {
-  const bookingState = useTypedSelector(state => state.booking);
+  const { booking } = useTypedSelector(state => state.bookings.booking);
   const currentuserState = useTypedSelector(state => state.currentuser);
 
-  const { error, booking } = bookingState;
   const { user } = currentuserState;
   const isPaid = true;
-
-  useEffect(() => {
-    if (error) toast.error(error);
-  }, [error]);
 
   return (
     <div className="container">

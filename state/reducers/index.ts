@@ -1,18 +1,17 @@
 import { combineReducers } from 'redux';
 import { allRoomsReducer } from './rooms/all-rooms-reducer';
 import { roomReducer } from './rooms/room-reducer';
-import { bookedDatesReducer } from './bookings/booked-dates-reducer';
-import { checkRoomAvailabilityReducer } from './bookings/check-room-availability-reducer';
+
 import { currentuserReducer } from './users/currentuser-reducer';
 import { forgotPasswordReducer } from './users/forgot-password-reducer';
 import { resetPasswordReducer } from './users/reset-password-reducer';
 import { signupReducer } from './users/signup-reducer';
 import { updateUserReducer } from './users/update-user-reducer';
-import { myBookingsReducer } from './bookings/my-bookings-reducer';
-import { bookingReducer } from './bookings/booking-reducer';
+
 import { createReviewReducer } from './reviews/create-review-reducer';
 import { checkReviewAvailabilityReducer } from './reviews/check-review-availability-reducer';
 import { adminReducer } from './admin';
+import { bookingsReducer } from './bookings';
 
 export const combinedReducer = combineReducers({
   allRooms: allRoomsReducer,
@@ -22,13 +21,10 @@ export const combinedReducer = combineReducers({
   updateUser: updateUserReducer,
   forgotPassword: forgotPasswordReducer,
   resetPassword: resetPasswordReducer,
-  checkRoomAvailability: checkRoomAvailabilityReducer,
-  bookedDates: bookedDatesReducer,
-  myBookings: myBookingsReducer,
-  booking: bookingReducer,
   createReview: createReviewReducer,
   checkReviewAvailability: checkReviewAvailabilityReducer,
   admin: adminReducer,
+  bookings: bookingsReducer,
 });
 
 export type RootState = ReturnType<typeof combinedReducer>;

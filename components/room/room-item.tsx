@@ -1,10 +1,13 @@
 import React, { FC } from 'react';
-// import Image from 'next/image';
 import Link from 'next/link';
 import { Room } from '../../common-types/room';
 import Image from 'next/image';
 
 const RoomItem: FC<{ room: Room }> = ({ room }) => {
+  if (!room.images.length) {
+    return null;
+  }
+
   return (
     <div key={room._id} className="col-sm-12 col-md-6 col-lg-3 my-3">
       <div className="card p-2">
@@ -35,9 +38,9 @@ const RoomItem: FC<{ room: Room }> = ({ room }) => {
           </div>
 
           <Link href={`/rooms/${room._id}`}>
-            <button className="btn btn-block view-btn">
-              <a>View Details</a>
-            </button>
+            <a style={{ color: 'white' }} className="btn btn-block view-btn">
+              View Details
+            </a>
           </Link>
         </div>
       </div>

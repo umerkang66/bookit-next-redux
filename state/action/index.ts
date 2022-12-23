@@ -1,16 +1,12 @@
 import { User, Room } from '../../common-types';
 import { BookingPopulated } from '../../common-types/booking';
 import {
+  BookingsActionTypes,
   AdminActionTypes,
   AllRoomsActionType,
-  BookedDatesActionTypes,
-  CheckBookingResetActionTypes,
   CheckReviewAvailabilityActionTypes,
-  CheckRoomAvailabilityActionTypes,
   CreateReviewActionTypes,
   CurrentUserActionTypes,
-  GetBookingActionTypes,
-  GetMyBookingsActionTypes,
   GetRoomActionType,
   ResetPasswordActionTypes,
   SignupActionTypes,
@@ -105,64 +101,25 @@ interface ResetPasswordErrorAction {
   payload: string;
 }
 
-interface CheckRoomAvailabilityStartAction {
-  type: CheckRoomAvailabilityActionTypes.CHECK_ROOM_AVAILABILITY_START;
-}
-interface CheckRoomAvailabilitySuccessAction {
-  type: CheckRoomAvailabilityActionTypes.CHECK_ROOM_AVAILABILITY_SUCCESS;
+interface RoomAvailabilityAction {
+  type: BookingsActionTypes.ROOM_AVAILABILITY;
   // this should tell if room is available or not
   payload: boolean;
 }
-interface CheckRoomAvailabilityResetAction {
-  type: CheckRoomAvailabilityActionTypes.CHECK_ROOM_AVAILABILITY_RESET;
-}
-interface CheckRoomAvailabilityErrorAction {
-  type: CheckRoomAvailabilityActionTypes.CHECK_ROOM_AVAILABILITY_ERROR;
-  // this should be error message
-  payload: string;
-}
-
-interface BookedDatesStartAction {
-  type: BookedDatesActionTypes.BOOKED_DATES_START;
-}
-interface BookedDatesSuccessAction {
-  type: BookedDatesActionTypes.BOOKED_DATES_SUCCESS;
+interface BookedDatesAction {
+  type: BookingsActionTypes.BOOKED_DATES;
   // range of dates
   payload: string[][];
 }
-interface BookedDatesErrorAction {
-  type: BookedDatesActionTypes.BOOKED_DATES_ERROR;
-  // this should be error message
-  payload: string;
-}
-
-interface GetMyBookingsStartAction {
-  type: GetMyBookingsActionTypes.GET_MY_BOOKINGS_START;
-}
-interface GetMyBookingsSuccessAction {
-  type: GetMyBookingsActionTypes.GET_MY_BOOKINGS_SUCCESS;
+interface GetMyBookingsAction {
+  type: BookingsActionTypes.GET_MY_BOOKINGS;
   // range of dates
   payload: BookingPopulated[];
 }
-interface GetMyBookingsErrorAction {
-  type: GetMyBookingsActionTypes.GET_MY_BOOKINGS_ERROR;
-  // this should be error message
-  payload: string;
-}
-
-interface GetBookingSuccessAction {
-  type: GetBookingActionTypes.GET_BOOKING_SUCCESS;
+interface GetBookingAction {
+  type: BookingsActionTypes.GET_BOOKING;
   // range of dates
   payload: BookingPopulated;
-}
-interface GetBookingErrorAction {
-  type: GetBookingActionTypes.GET_BOOKING_ERROR;
-  // this should be error message
-  payload: string;
-}
-
-interface CheckBookingResetAction {
-  type: CheckBookingResetActionTypes.CHECK_BOOKING_RESET;
 }
 
 interface CreateReviewStartAction {
@@ -239,16 +196,7 @@ export type Action =
   | ResetPasswordStartAction
   | ResetPasswordSuccessAction
   | ResetPasswordErrorAction
-  | CheckRoomAvailabilityStartAction
-  | CheckRoomAvailabilitySuccessAction
-  | CheckRoomAvailabilityResetAction
-  | CheckRoomAvailabilityErrorAction
-  | BookedDatesStartAction
-  | BookedDatesSuccessAction
-  | BookedDatesErrorAction
-  | GetMyBookingsStartAction
-  | GetMyBookingsSuccessAction
-  | GetMyBookingsErrorAction
-  | GetBookingSuccessAction
-  | GetBookingErrorAction
-  | CheckBookingResetAction;
+  | RoomAvailabilityAction
+  | BookedDatesAction
+  | GetMyBookingsAction
+  | GetBookingAction;
