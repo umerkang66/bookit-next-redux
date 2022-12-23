@@ -1,6 +1,6 @@
 import { Action as DefaultAction } from 'redux';
 import { getSession } from 'next-auth/react';
-import AllAdminRooms from '../../../components/admin/all-admin-rooms';
+import AllAdminRooms from '../../../components/admin/all-rooms';
 import { actionCreators } from '../../../state';
 import { wrapper } from '../../../state/store';
 
@@ -22,7 +22,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
       };
     }
 
-    const action = actionCreators.getAdminAllRoomsAction(context.req);
+    const action = actionCreators.adminGetAllRoomsAction(context.req);
     await store.dispatch(action as unknown as DefaultAction);
 
     // just for the sake of typescript error

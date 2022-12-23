@@ -1,11 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ChangeEvent } from 'react';
 import { useRouter } from 'next/router';
 import ButtonLoader from '../layout/button-loader';
-import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 import { useActions } from '../../hooks/use-actions';
 import { useTypedSelector } from '../../hooks/use-typed-selector';
+import { RoomImage } from '../../common-types';
+import Image from 'next/image';
+import { useAsyncAction } from '../../hooks/use-async-action';
 
 const UpdateRoom = () => {
   const [name, setName] = useState('');
@@ -21,53 +23,43 @@ const UpdateRoom = () => {
   const [petsAllowed, setPetsAllowed] = useState(false);
   const [roomCleaning, setRoomCleaning] = useState(false);
 
-  const [images, setImages] = useState([]);
-  const [oldImages, setOldImages] = useState([]);
-  const [imagesPreview, setImagesPreview] = useState([]);
+  const [images, setImages] = useState<string[]>([]);
+  const [oldImages, setOldImages] = useState<RoomImage[]>([]);
+  const [imagesPreview, setImagesPreview] = useState<string[]>([]);
 
-  const dispatch = useDispatch();
   const router = useRouter();
   const actions = useActions();
 
-  const {
-    loading: isUpdatedLoading,
-    error: isUpdatedError,
-    room: isUpdatedRoom,
-  } = useTypedSelector(state => state.adminUpdateRoom);
-  const { error: roomDetailsError, room } = useTypedSelector(
-    state => state.room
-  );
+  const [updateRoom, loading, error] = useAsyncAction(actions.adminUpdateRoom);
+
+  const updatedRoom = useTypedSelector(state => state.admin.updateRoom.room);
+  const { room: currentRoom } = useTypedSelector(state => state.room);
 
   useEffect(() => {
-    if (room) {
-      setName(room.name);
-      setPrice(room.price);
-      setDescription(room.description);
-      setAddress(room.address);
-      setCategory(room.category);
-      setGuestCapacity(room.guestCapacity);
-      setNumOfBeds(room.numOfBeds);
-      setInternet(room.internet);
-      setBreakfast(room.breakfast);
-      setAirConditioned(room.airConditioned);
-      setPetsAllowed(room.petsAllowed);
-      setRoomCleaning(room.roomCleaning);
-      // @ts-ignore
-      setOldImages(room.images);
+    if (currentRoom) {
+      setName(currentRoom.name);
+      setPrice(currentRoom.price);
+      setDescription(currentRoom.description);
+      setAddress(currentRoom.address);
+      setCategory(currentRoom.category);
+      setGuestCapacity(currentRoom.guestCapacity);
+      setNumOfBeds(currentRoom.numOfBeds);
+      setInternet(currentRoom.internet);
+      setBreakfast(currentRoom.breakfast);
+      setAirConditioned(currentRoom.airConditioned);
+      setPetsAllowed(currentRoom.petsAllowed);
+      setRoomCleaning(currentRoom.roomCleaning);
+      setOldImages(currentRoom.images);
     }
 
-    if (isUpdatedError) {
-      toast.error(isUpdatedError);
+    if (error) {
+      toast.error(error);
     }
 
-    if (roomDetailsError) {
-      toast.error(roomDetailsError);
-    }
-
-    if (isUpdatedRoom) {
+    if (updatedRoom) {
       router.push('/admin/rooms');
     }
-  }, [isUpdatedError, roomDetailsError, isUpdatedRoom]);
+  }, [error, updatedRoom, currentRoom, router]);
 
   const submitHandler = (e: any) => {
     e.preventDefault();
@@ -85,15 +77,15 @@ const UpdateRoom = () => {
       airConditioned,
       petsAllowed,
       roomCleaning,
+      images: [] as string[],
     };
-    // @ts-ignore
     if (images.length !== 0) roomData.images = images;
 
-    actions.adminUpdateRoomAction(room?._id.toString() as string, roomData);
+    updateRoom(currentRoom?._id as string, roomData);
   };
 
-  const onChange = (e: any) => {
-    const files = Array.from(e.target.files);
+  const onImagesChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files as FileList);
 
     setImages([]);
     setOldImages([]);
@@ -104,14 +96,11 @@ const UpdateRoom = () => {
 
       reader.onload = () => {
         if (reader.readyState === 2) {
-          // @ts-ignore
-          setImages(oldArray => [...oldArray, reader.result]);
-          // @ts-ignore
-          setImagesPreview(oldArray => [...oldArray, reader.result]);
+          setImages(oldArray => [...oldArray, reader.result as string]);
+          setImagesPreview(oldArray => [...oldArray, reader.result as string]);
         }
       };
 
-      // @ts-ignore
       reader.readAsDataURL(file);
     });
   };
@@ -312,7 +301,7 @@ const UpdateRoom = () => {
                     name="room_images"
                     className="custom-file-input"
                     id="customFile"
-                    onChange={onChange}
+                    onChange={onImagesChange}
                     multiple
                   />
                   <label className="custom-file-label" htmlFor="customFile">
@@ -321,36 +310,34 @@ const UpdateRoom = () => {
                 </div>
 
                 {imagesPreview.map(img => (
-                  <img
+                  <Image
                     src={img}
                     key={img}
                     alt="Images Preview"
                     className="mt-3 mr-2"
-                    width="55"
-                    height="52"
+                    width={60}
+                    height={65}
                   />
                 ))}
 
                 {oldImages &&
                   oldImages.map(img => (
-                    <img
-                      // @ts-ignore
+                    <Image
                       src={img.url}
-                      // @ts-ignore
                       key={img.public_id}
                       alt="Images Preview"
                       className="mt-3 mr-2"
-                      width="55"
-                      height="52"
+                      width={60}
+                      height={65}
                     />
                   ))}
               </div>
               <button
                 type="submit"
                 className="btn btn-block new-room-btn py-3"
-                disabled={isUpdatedLoading ? true : false}
+                disabled={loading ? true : false}
               >
-                {isUpdatedLoading ? <ButtonLoader /> : 'UPDATE'}
+                {loading ? <ButtonLoader /> : 'UPDATE'}
               </button>
             </form>
           </div>

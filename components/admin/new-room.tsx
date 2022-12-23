@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ChangeEvent } from 'react';
 import { toast } from 'react-toastify';
 import { useTypedSelector } from '../../hooks/use-typed-selector';
 import { useActions } from '../../hooks/use-actions';
 import ButtonLoader from '../layout/button-loader';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import { useAsyncAction } from '../../hooks/use-async-action';
 
 const NewRoom = () => {
   const [name, setName] = useState('');
@@ -20,17 +21,16 @@ const NewRoom = () => {
   const [petsAllowed, setPetsAllowed] = useState(false);
   const [roomCleaning, setRoomCleaning] = useState(false);
 
-  const [images, setImages] = useState<any[]>([]);
-  const [imagesPreview, setImagesPreview] = useState<any[]>([]);
+  const [images, setImages] = useState<string[]>([]);
+  const [imagesPreview, setImagesPreview] = useState<string[]>([]);
 
   const router = useRouter();
   const actions = useActions();
 
-  const { loading, error, room } = useTypedSelector(
-    state => state.adminNewRoom
+  const { room } = useTypedSelector(state => state.admin.newRoom);
+  const [createRoom, loading, error] = useAsyncAction(
+    actions.adminCreateNewRoom
   );
-
-  console.log('🚀🚀🚀 umer did this');
 
   useEffect(() => {
     if (error) {
@@ -63,11 +63,11 @@ const NewRoom = () => {
 
     if (images.length === 0) return toast.error('Please upload images.');
 
-    actions.adminNewRoomAction(roomData);
+    createRoom(roomData);
   };
 
-  const onChange = (e: any) => {
-    const files: any[] = Array.from(e.target.files);
+  const onImagesChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files as FileList);
 
     setImages([]);
     setImagesPreview([]);
@@ -77,8 +77,8 @@ const NewRoom = () => {
 
       reader.onload = () => {
         if (reader.readyState === 2) {
-          setImages(oldArray => [...oldArray, reader.result]);
-          setImagesPreview(oldArray => [...oldArray, reader.result]);
+          setImages(oldArray => [...oldArray, reader.result as string]);
+          setImagesPreview(oldArray => [...oldArray, reader.result as string]);
         }
       };
 
@@ -273,7 +273,7 @@ const NewRoom = () => {
                   name="room_images"
                   className="custom-file-input"
                   id="customFile"
-                  onChange={onChange}
+                  onChange={onImagesChange}
                   multiple
                 />
                 <label className="custom-file-label" htmlFor="customFile">
