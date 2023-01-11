@@ -61,6 +61,7 @@ userSchema.pre('save', async function (next) {
 });
 
 userSchema.post('remove', async function (doc, next) {
+  // we could also use "this" here
   await Booking.deleteMany({ user: doc._id });
   const rooms = await Room.find({
     reviews: { $elemMatch: { user: doc._id.toString() } },
