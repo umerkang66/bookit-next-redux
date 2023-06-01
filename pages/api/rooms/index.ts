@@ -1,7 +1,7 @@
 import nc from 'next-connect';
 import { allRooms, deleteAll } from '../../../controllers/room-controllers';
 import { dbConnect } from '../../../utils/db-connect';
-import { errorHandler, requireAuth } from '../../../middlewares';
+import { errorHandler } from '../../../middlewares';
 
 const handler = nc({ onError: errorHandler });
 

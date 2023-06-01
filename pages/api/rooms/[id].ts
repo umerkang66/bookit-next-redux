@@ -1,9 +1,5 @@
 import nc from 'next-connect';
-import {
-  deleteRoom,
-  getRoom,
-  updateRoom,
-} from '../../../controllers/room-controllers';
+import { getRoom } from '../../../controllers/room-controllers';
 import { dbConnect } from '../../../utils/db-connect';
 import { errorHandler } from '../../../middlewares';
 
