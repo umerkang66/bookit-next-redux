@@ -1,1 +1,1 @@
-# Using redux with next js
+# Using redux with next js.
